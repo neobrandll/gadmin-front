@@ -40,11 +40,14 @@ export class AuthService {
         tap(
           resData => {
             this.authHandler(resData);
+            this.dialogService.openSimpleDialog('siiiu', 'siuuu', () => {
+              console.log(resData);
+            });
           },
           error => {
             console.log(error);
             this.dialogService.openSimpleDialog('Error', error, () => {
-              this.router.navigate(['auth/login']);
+              // this.router.navigate(['/auth/login']);
             });
           }
         )
@@ -73,18 +76,20 @@ export class AuthService {
 
   autoLogout(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
+      console.log('aquii', expirationDuration);
       this.logout();
     }, expirationDuration);
   }
 
   logout() {
-    this._user.next(null);
-    this.router.navigate(['/auth/login']);
-    localStorage.removeItem('userData');
-    if (this.tokenExpirationTimer) {
-      clearTimeout(this.tokenExpirationTimer);
-    }
-    this.tokenExpirationTimer = null;
+    console.log('logout');
+    // this._user.next(null);
+    // this.router.navigate(['/auth']);
+    // localStorage.removeItem('userData');
+    // if (this.tokenExpirationTimer) {
+    //   clearTimeout(this.tokenExpirationTimer);
+    // }
+    // this.tokenExpirationTimer = null;
   }
 
   autoLogin() {

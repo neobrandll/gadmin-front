@@ -1,1 +1,57 @@
-<p>login works!</p>
+<div id="ctn">
+  <div id='mainGrid' class="container-fluid">
+    <div class="row no-gutters justify-content-center">
+      <div class="col-5 card" style="text-align: center" *ngIf="isLoading" >
+          <app-loading-spinner></app-loading-spinner>
+      </div>
+      <div class="col-5 card" *ngIf="!isLoading">
+        <div class="row no-gutters justify-content-center">
+          <div class="col-5 justify-content-center">
+            <img id="logo-img" src="../../../../assets/logo2-bg.png" alt="logo">
+          </div>
+        </div>
+        <form [formGroup]="form" >
+        <div class="row no-gutters justify-content-center">
+          <div class="col-8 text-center ">
+            <mat-form-field class="input">
+              <mat-label>Nombre de usuario o Correo electronico</mat-label>
+              <mat-error *ngIf="!form.get('user').valid && form.get('user').touched">
+                Por favor ingrese un correo o usuario
+              </mat-error>
+              <input matInput formControlName="user" >
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row no-gutters justify-content-center">
+          <div class="col-8 text-center">
+            <mat-form-field class="input">
+              <mat-label>Contrasena</mat-label>
+              <mat-error *ngIf="!form.get('password').valid && form.get('password').touched">
+                Debe de poseer al menos 5 caracteres
+              </mat-error>
+              <input matInput formControlName="password" type="password" >
+              <mat-hint>Debe de poseer al menos 5 caracteres</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+        </form>
+        <div class="row no-gutters" style="margin-top: 2vh"></div>
+        <div class="row no-gutters justify-content-center">
+          <div class="col-8 text-center">
+            <button (click)="login()" class="button">Iniciar Sesion</button>
+          </div>
+        </div>
+        <div class="row no-gutters justify-content-center">
+          <div class="col-8 text-center">
+            <hr>
+          </div>
+        </div>
+        <div class="row no-gutters justify-content-center">
+          <div class="col-8 text-center">
+            <button class="button">Registro</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
