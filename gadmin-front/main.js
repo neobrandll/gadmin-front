@@ -6,8 +6,10 @@ const createWindow = () => {
   win = new BrowserWindow({
     // width: 1200,
     // height: 800,
+    minHeight: 800,
+    minWidth: 1500,
     webPreferences: { backgroundThrottling: false },
-    icon: __dirname + '/src/assets/icon.png',
+    icon: __dirname + '/dist/assets/icon.png',
     // resizable: false,
     center: true
   });
