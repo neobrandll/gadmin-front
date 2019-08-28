@@ -1,13 +1,13 @@
 <div id="ctn">
   <div id='mainGrid' class="container-fluid">
     <div class="row no-gutters justify-content-center">
-      <div class="col-5 card" style="text-align: center" *ngIf="isLoading" >
+      <div class="col-3 card center-block"  *ngIf="isLoading" >
           <app-loading-spinner></app-loading-spinner>
       </div>
       <div class="col-5 card" *ngIf="!isLoading">
         <div class="row no-gutters justify-content-center">
           <div class="col-5 justify-content-center">
-            <img id="logo-img" src="../../../../assets/logo2-bg.png" alt="logo">
+            <img id="logo-img" src="assets/logo2-bg.png " alt="logo">
           </div>
         </div>
         <form [formGroup]="form" >
@@ -38,7 +38,7 @@
         <div class="row no-gutters" style="margin-top: 2vh"></div>
         <div class="row no-gutters justify-content-center">
           <div class="col-8 text-center">
-            <button (click)="login()" class="button">Iniciar Sesion</button>
+            <button (click)="login()" class="button" [ngClass]="{'disabled': !form.valid}" [disabled]="!form.valid">Iniciar Sesion</button>
           </div>
         </div>
         <div class="row no-gutters justify-content-center">
@@ -48,7 +48,7 @@
         </div>
         <div class="row no-gutters justify-content-center">
           <div class="col-8 text-center">
-            <button class="button">Registro</button>
+            <button  routerLink="/auth/register" class="button">Registro</button>
           </div>
         </div>
       </div>

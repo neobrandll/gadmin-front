@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { EmpresaLogin, LoginResponse, User } from '../auth/models/user.model';
@@ -46,8 +46,8 @@ export class AuthService {
           },
           error => {
             console.log(error);
-            this.dialogService.openSimpleDialog('Error', error, () => {
-              // this.router.navigate(['/auth/login']);
+            this.dialogService.openSimpleDialog('Error', error.error.message, () => {
+              this.router.navigate(['/auth/login']);
             });
           }
         )
@@ -70,26 +70,24 @@ export class AuthService {
       resData.payload.profile.empresas
     );
     this._user.next(user);
-    this.autoLogout(expirationTime);
+    this.autoLogout(4.9 * 60 * 60 * 1000);
     localStorage.setItem('userData', JSON.stringify(user));
   }
 
   autoLogout(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
-      console.log('aquii', expirationDuration);
       this.logout();
     }, expirationDuration);
   }
 
   logout() {
-    console.log('logout');
-    // this._user.next(null);
-    // this.router.navigate(['/auth']);
-    // localStorage.removeItem('userData');
-    // if (this.tokenExpirationTimer) {
-    //   clearTimeout(this.tokenExpirationTimer);
-    // }
-    // this.tokenExpirationTimer = null;
+    this._user.next(null);
+    this.router.navigate(['/auth/login']);
+    localStorage.removeItem('userData');
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+    }
+    this.tokenExpirationTimer = null;
   }
 
   autoLogin() {
@@ -133,10 +131,19 @@ export class AuthService {
     return this.http.post<RegisterResponse>(`${this.url}/auth/registro`, registerInput).pipe(
       tap(
         response => {
-          this.router.navigate(['auth/login']);
+          this.dialogService.openSimpleDialog(
+            'Registro Satisfactorio',
+            'sera redirigido al inicio de sesión',
+            () => {
+              this.router.navigate(['auth/login']);
+              console.log(response);
+            }
+          );
         },
         error => {
-          // HANDLE ERROR
+          this.dialogService.openSimpleDialog('Error', error.error.message, () => {
+            console.log(error);
+          });
         }
       )
     );

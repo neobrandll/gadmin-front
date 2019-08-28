@@ -6,16 +6,16 @@ const createWindow = () => {
   win = new BrowserWindow({
     // width: 1200,
     // height: 800,
-    minHeight: 800,
-    minWidth: 1500,
+    // minHeight: 800,
+    // minWidth: 1500,
     webPreferences: { backgroundThrottling: false },
     icon: __dirname + '/dist/assets/icon.png',
-    // resizable: false,
-    center: true
+    resizable: false,
+    fullscreen: true
   });
 
   win.loadURL(__dirname + '/dist/index.html');
-  win.maximize();
+
   win.on('closed', () => {
     win = null;
   });

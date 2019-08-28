@@ -1,0 +1,196 @@
+<div id="ctn">
+  <div class="row no-gutters justify-content-center" *ngIf="isLoading">
+    <div class="col-3 center-block card">
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+  </div>
+  <div class="container-fluid" id="mainContainer" *ngIf="!isLoading">
+    <mat-horizontal-stepper linear>
+      <mat-step label="Dirección"
+                [completed]="form.valid">
+        <form [formGroup]="form">
+          <div class="container-fluid" style="margin-top: 4vh">
+            <div class="row no-gutters">
+              <div class="col-3 align-items-center">
+                <img class="logo-img" src="assets/logo3-bg.png " alt="logo">
+              </div>
+              <div class="col-6">
+                <div class="row no-gutters justify-content-center">
+                  <div class="col-12 text-center">
+                    <mat-form-field class="input">
+                      <mat-label>Pais</mat-label>
+                      <input matInput formControlName="pais">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row no-gutters justify-content-center">
+                  <div class="col-12 text-center">
+                    <mat-form-field class="input">
+                      <mat-label>Estado</mat-label>
+                      <input matInput formControlName="estado">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row no-gutters justify-content-center">
+                  <div class="col-12 text-center">
+                    <mat-form-field class="input">
+                      <mat-label>Ciudad</mat-label>
+                      <input matInput formControlName="ciudad">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row no-gutters justify-content-center">
+                  <div class="col-12 text-center">
+                    <mat-form-field class="input">
+                      <mat-label>Calle</mat-label>
+                      <input matInput formControlName="calle">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row no-gutters justify-content-center">
+                  <div class="col-12">
+                    <button routerLink="/auth/login" style="margin: 0 20%" class="btn" matStepperPrevious>Volver al
+                      Inicio de sesión
+                    </button>
+                    <button class="btn" [ngClass]="{'disabled': !form.valid}" [disabled]="!form.valid" matStepperNext>
+                      Siguiente
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3"></div>
+            </div>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step label="Información de usuario" [completed]="infoForm.valid">
+        <form [formGroup]="infoForm">
+          <div class="container-fluid" style="margin-top: 1vh">
+            <div class="row no-gutters">
+              <div class="col-3 align-items-center">
+                <img class="logo-img" src="assets/logo3-bg.png " alt="logo">
+              </div>
+              <div class="col-6">
+                <div class="row no-gutters justify-content-center">
+                  <div class="col-12 text-center">
+                    <mat-form-field class="input">
+                      <mat-label>Nombre</mat-label>
+                      <input matInput formControlName="nombre">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row no-gutters justify-content-center">
+                  <div class="col-12 text-center">
+                    <mat-form-field class="input">
+                      <mat-label>Apellido</mat-label>
+                      <input matInput formControlName="apellido">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row no-gutters justify-content-center">
+                  <div class="col-12 text-center">
+                    <mat-form-field class="input">
+                      <mat-label>Email</mat-label>
+                      <input matInput formControlName="email" type="email">
+                      <mat-error *ngIf="!infoForm.get('email').valid && infoForm.get('email').touched">
+                        Por favor ingrese un correo valido
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row no-gutters justify-content-center">
+                  <div class="col-12 text-center">
+                    <mat-form-field class="input">
+                      <mat-label>Telefono</mat-label>
+                      <input matInput formControlName="telefono" type="number">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row no-gutters justify-content-center">
+                  <div class="col-12 text-center">
+                    <mat-form-field class="input">
+                      <mat-label>Cedula de Identidad</mat-label>
+                      <input matInput formControlName="cedula" type="number">
+                      <mat-error *ngIf="!infoForm.get('cedula').valid && infoForm.get('cedula').touched">
+                        Debe de ser un numero entero
+                      </mat-error>
+                      <mat-hint>Debe de ser un numero entero</mat-hint>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row no-gutters justify-content-center" style="margin-top: 2vh">
+                  <div class="col-12">
+                    <button style="margin: 0 9vw" class="btn" matStepperPrevious>Atrás</button>
+                    <button class="btn" [ngClass]="{'disabled': !infoForm.valid}" [disabled]="!infoForm.valid"
+                            matStepperNext>
+                      Siguiente
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3"></div>
+            </div>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step label="Usuario y Contraseña" [completed]="userForm.valid">
+        <form [formGroup]="userForm">
+          <div class="container-fluid" style="margin-top: 4vh">
+            <div class="row no-gutters">
+              <div class="col-3 align-items-center">
+                <img class="logo-img" src="assets/logo3-bg.png " alt="logo">
+              </div>
+              <div class="col-6">
+                <div class="row no-gutters justify-content-center">
+                  <div class="col-12 text-center">
+                    <mat-form-field class="input">
+                      <mat-label>Usuario</mat-label>
+                      <input matInput formControlName="user">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row no-gutters justify-content-center">
+                  <div class="col-12 text-center">
+                    <mat-form-field class="input">
+                      <mat-label>Contraseña</mat-label>
+                      <input matInput formControlName="password" type="password">
+                      <mat-error *ngIf="!userForm.get('password').valid && userForm.get('password').touched">
+                        Debe de contener al menos 5 caracteres y ser alfanumerica
+                      </mat-error>
+                      <mat-hint>Debe de contener al menos 5 caracteres y ser alfanumerica</mat-hint>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+
+                <div class="row no-gutters justify-content-center">
+                  <div class="col-12 text-center">
+                    <mat-form-field class="input">
+                      <mat-label>Confirmar Contraseña</mat-label>
+                      <input matInput formControlName="passwordConfirm" type="password">
+                      <mat-error>
+                        Las contraseñas no coinciden
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="row no-gutters justify-content-center" style="margin-top: 2vh">
+                  <div class="col-12">
+                    <button style="margin: 0 9vw" class="btn" matStepperPrevious>Atrás</button>
+                    <button (click)="onRegister()" class="btn" [ngClass]="{'disabled': !userForm.valid}"
+                            [disabled]="!userForm.valid">
+                      Registrar
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3"></div>
+            </div>
+          </div>
+        </form>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+</div>
+

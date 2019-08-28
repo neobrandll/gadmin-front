@@ -1,0 +1,53 @@
+.btn{
+  background-color: #3f51b5;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  color: white;
+  min-width: 15%;
+  height: 5vh;
+  font-size: 15px;
+}
+
+#ctn{
+  background-color: #3f51b5;
+  height: 100vh;
+  padding: 10vh 10vw;
+}
+#mainContainer{
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.input{
+  width: 100%;
+  padding: 2vh 0;
+  font-size: 15px;
+}
+
+.disabled{
+  background-color: lightgrey;
+}
+
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.card{
+  background-color: white;
+  border-radius: 10px;
+}
+
+.logo-img{
+  width: 60%;
+  height: auto;
+  margin-right:auto;
+  display:block;
+}
