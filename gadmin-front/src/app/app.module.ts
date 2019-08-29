@@ -5,8 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
+import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
+import { CoreModule } from './core.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,9 +18,9 @@ import { SharedModule } from './shared/shared.module';
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    CoreModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

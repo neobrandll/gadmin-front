@@ -22,8 +22,8 @@ const createWindow = () => {
   const mainMenu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(mainMenu);
 
-  //win.webContents.openDevTools();
-  // process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = true;
+  win.webContents.openDevTools();
+  process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = true;
 };
 
 app.on('ready', createWindow);
@@ -36,17 +36,17 @@ app.on('activate', () => {
 
 const menuTemplate = [
   {
-    label: 'File',
-    submenu: [
-      {
-        label: 'Quit',
-        accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
-        click() {
-          app.quit();
-        }
-      }
-    ]
+    // label: 'File',
+    // submenu: [
+    //   {
+    label: 'Salir',
+    accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
+    click() {
+      app.quit();
+    }
   }
+  //   ]
+  // }
 ];
 
 if (process.platform === 'darwin') {

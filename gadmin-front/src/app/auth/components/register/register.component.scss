@@ -11,7 +11,7 @@
 
 #ctn{
   background-color: #3f51b5;
-  height: 100vh;
+  height: 100%;
   padding: 10vh 10vw;
 }
 #mainContainer{
@@ -22,10 +22,10 @@
 }
 
 .input{
-  width: 100%;
-  padding: 2vh 0;
-  font-size: 15px;
-}
+   width: 100%;
+   padding: 2vh 0;
+   font-size: 15px;
+ }
 
 .disabled{
   background-color: lightgrey;

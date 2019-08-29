@@ -6,6 +6,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { RegisterComponent } from './components/register/register.component';
+import { PreMenuComponent } from './components/pre-menu/pre-menu.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptorService } from '../interceptors/auth-interceptor.service';
+import { CoreModule } from '../core.module';
 
 const routes: Routes = [
   {
@@ -20,6 +25,11 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'preMenu',
+    component: PreMenuComponent,
+    canActivate: [AuthGuard]
   }
 ];
 
@@ -29,8 +39,9 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     MaterialModule,
-    SharedModule
+    SharedModule,
+    CoreModule
   ],
-  declarations: [LoginComponent, RegisterComponent]
+  declarations: [LoginComponent, RegisterComponent, PreMenuComponent]
 })
 export class AuthModule {}

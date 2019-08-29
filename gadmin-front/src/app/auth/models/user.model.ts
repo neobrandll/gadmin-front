@@ -1,7 +1,7 @@
 export interface EmpresaLogin {
-  id: number;
-  nombre: string;
-  rif: string;
+  id_empresa: number;
+  no_empresa: string;
+  ri_empresa: string;
 }
 
 export class User {
@@ -9,7 +9,7 @@ export class User {
     // tslint:disable-next-line:variable-name
     private _token: string,
     // tslint:disable-next-line:variable-name
-    private _tokenExpirationDate: Date,
+    public _tokenExpirationDate: Date,
     public id: number,
     public nombre: string,
     public apellido: string,

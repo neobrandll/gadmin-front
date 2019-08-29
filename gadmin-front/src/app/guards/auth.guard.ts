@@ -8,7 +8,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { map, take } from 'rxjs/operators';
+import { exhaustMap, map, take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -17,14 +17,19 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     router: RouterStateSnapshot
   ): boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree> {
-    return this.authService.user.pipe(
+    return this.authService.autoLogin().pipe(
       take(1),
-      map(user => {
-        const isAuth = !!user;
-        if (isAuth) {
-          return true;
-        }
-        return this.router.createUrlTree(['/auth', 'login']);
+      exhaustMap(() => {
+        return this.authService.user.pipe(
+          take(1),
+          map(user => {
+            const isAuth = !!user;
+            if (isAuth) {
+              return true;
+            }
+            return this.router.createUrlTree(['/auth', 'login']);
+          })
+        );
       })
     );
   }

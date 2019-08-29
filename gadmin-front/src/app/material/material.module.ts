@@ -5,8 +5,13 @@ import {
   MatDividerModule,
   MatFormFieldModule,
   MatInputModule,
-  MatStepperModule
+  MatStepperModule,
+  MatToolbarModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatPaginatorIntl
 } from '@angular/material';
+import { CustomPaginator } from './custom-paginator';
 
 const Material = [
   MatDialogModule,
@@ -14,11 +19,15 @@ const Material = [
   MatFormFieldModule,
   MatInputModule,
   MatDividerModule,
-  MatStepperModule
+  MatStepperModule,
+  MatToolbarModule,
+  MatTableModule,
+  MatPaginatorModule
 ];
 
 @NgModule({
   imports: [Material],
-  exports: [Material]
+  exports: [Material],
+  providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginator }]
 })
 export class MaterialModule {}

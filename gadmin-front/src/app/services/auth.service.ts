@@ -15,7 +15,7 @@ import { DialogService } from './dialog.service';
 })
 export class AuthService {
   // tslint:disable-next-line:variable-name
-  private _user = new BehaviorSubject(null);
+  _user = new BehaviorSubject(null);
 
   get user() {
     return this._user.asObservable();
@@ -40,9 +40,7 @@ export class AuthService {
         tap(
           resData => {
             this.authHandler(resData);
-            this.dialogService.openSimpleDialog('siiiu', 'siuuu', () => {
-              console.log(resData);
-            });
+            this.router.navigate(['/auth', 'preMenu']);
           },
           error => {
             console.log(error);
@@ -76,7 +74,13 @@ export class AuthService {
 
   autoLogout(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
-      this.logout();
+      this.dialogService.openSimpleDialog(
+        'Su sesión expiro',
+        'sera redirigido al inicio de sesión',
+        () => {
+          this.logout();
+        }
+      );
     }, expirationDuration);
   }
 
@@ -104,7 +108,7 @@ export class AuthService {
       empresas: EmpresaLogin[];
     } = JSON.parse(localStorage.getItem('userData'));
     if (!userData) {
-      return;
+      return of(true);
     }
     const loadedUser = new User(
       userData._token,
@@ -118,13 +122,13 @@ export class AuthService {
       userData.user,
       userData.empresas
     );
-
     if (loadedUser.token) {
       this._user.next(loadedUser);
       const expirationDuration =
         new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
       this.autoLogout(expirationDuration);
     }
+    return of(true);
   }
 
   register(registerInput: RegisterInput) {

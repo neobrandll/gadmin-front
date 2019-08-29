@@ -1,0 +1,127 @@
+<div class="container-fluid ctn" style="padding: 0">
+  <mat-toolbar  class="navbar">
+    <div class="brand">GADMIN</div>
+    <div style="box-sizing: border-box; display: inline-block" >
+      <span class="navItem" >{{user.user}}</span>
+      <span class="navItem" (click)="onLogout()">Cerrar Sesión</span>
+    </div>
+  </mat-toolbar>
+  <div class="row no-gutters justify-content-center" *ngIf="isLoading">
+    <div class="col-3 center-block card">
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+  </div>
+  <div class="row no-gutters justify-content-center"  *ngIf="!isLoading">
+    <div class="col-10" id="card">
+      <mat-horizontal-stepper linear>
+        <mat-step label="Dirección de la Empresa"
+                  [completed]="addressForm.valid">
+          <form [formGroup]="addressForm">
+            <div class="container-fluid" style="margin-top: 30px">
+              <div class="row no-gutters">
+                <div class="col-3 align-items-center">
+                  <img class="logo-img" src="assets/field.png " alt="logo">
+                  <div class="mat-headline text-center" style="margin-top: 20px" >CREAR EMPRESA</div>
+                </div>
+                <div class="col-6">
+                  <div class="row no-gutters justify-content-center">
+                    <div class="col-12 text-center">
+                      <mat-form-field class="input">
+                        <mat-label>Pais</mat-label>
+                        <input matInput formControlName="pais">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row no-gutters justify-content-center">
+                    <div class="col-12 text-center">
+                      <mat-form-field class="input">
+                        <mat-label>Estado</mat-label>
+                        <input matInput formControlName="estado">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row no-gutters justify-content-center">
+                    <div class="col-12 text-center">
+                      <mat-form-field class="input">
+                        <mat-label>Ciudad</mat-label>
+                        <input matInput formControlName="ciudad">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row no-gutters justify-content-center">
+                    <div class="col-12 text-center">
+                      <mat-form-field class="input">
+                        <mat-label>Calle</mat-label>
+                        <input matInput formControlName="calle">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row no-gutters justify-content-center">
+                    <div class="col-12 d-flex justify-content-around">
+                      <button routerLink="/auth/preMenu"  mat-raised-button color="primary" >Volver a la
+                        selección de empresa
+                      </button>
+                      <button mat-raised-button color="primary"  [disabled]="!addressForm.valid" matStepperNext>
+                        Siguiente
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3"></div>
+              </div>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step label="Información de Empresa"
+                  [completed]="empresaInfoForm.valid">
+          <form [formGroup]="empresaInfoForm">
+            <div class="container-fluid" style="margin-top: 30px">
+              <div class="row no-gutters">
+                <div class="col-3 align-items-center">
+                  <img class="logo-img" src="assets/field.png " alt="logo">
+                  <div class="mat-headline text-center" style="margin-top: 20px" >CREAR EMPRESA</div>
+                </div>
+                <div class="col-6">
+                  <div class="row no-gutters justify-content-center">
+                    <div class="col-12 text-center">
+                      <mat-form-field class="input">
+                        <mat-label>nombre de la Empresa</mat-label>
+                        <input matInput formControlName="nombre">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row no-gutters justify-content-center">
+                    <div class="col-12 text-center">
+                      <mat-form-field class="input">
+                        <mat-label>Rif</mat-label>
+                        <input matInput formControlName="rif" type="number">
+                        <mat-error>
+                          Debe de ser un numero entero
+                        </mat-error>
+                        <mat-hint>Debe de ser un numero entero</mat-hint>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row no-gutters justify-content-center">
+                    <div class="col-12 d-flex justify-content-around">
+                      <button   mat-raised-button color="primary" matStepperPrevious>
+                        Atrás
+                      </button>
+                      <button mat-raised-button color="primary" (click)="onCreateEmpresa()"  [disabled]="!empresaInfoForm.valid" >
+                        Crear Empresa
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3"></div>
+              </div>
+            </div>
+          </form>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </div>
+</div>
+
+
+
