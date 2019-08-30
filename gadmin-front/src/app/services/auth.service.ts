@@ -9,25 +9,38 @@ import { take, tap } from 'rxjs/operators';
 import { RegisterInput, RegisterResponse } from '../auth/models/register.model';
 import { UpdateAddressResponse } from '../auth/models/update-user.model';
 import { DialogService } from './dialog.service';
+import { EmpresaService } from './empresa.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   // tslint:disable-next-line:variable-name
-  _user = new BehaviorSubject(null);
+  private _user = new BehaviorSubject(null);
 
   get user() {
     return this._user.asObservable();
   }
-
+  // tslint:disable-next-line:variable-name
+  private _empresa = new BehaviorSubject<EmpresaLogin>(null);
   private tokenExpirationTimer: any;
   private url = environment.url;
   constructor(
+    // private empresaService: EmpresaService,
     private http: HttpClient,
     private router: Router,
     private dialogService: DialogService
   ) {}
+
+  get empresa() {
+    return this._empresa.asObservable();
+  }
+
+  setEmpresa(empresa: EmpresaLogin) {
+    localStorage.removeItem('empresaData');
+    localStorage.setItem('empresaData', JSON.stringify(empresa));
+    this._empresa.next(empresa);
+  }
 
   // El usuario puede iniciar sesion con el usuario o con el correo
   login(userOrEmail: string, password: string) {
@@ -72,6 +85,12 @@ export class AuthService {
     localStorage.setItem('userData', JSON.stringify(user));
   }
 
+  updateUser(updatedUser: User) {
+    localStorage.removeItem('userData');
+    localStorage.setItem('userData', JSON.stringify(updatedUser));
+    this._user.next(updatedUser);
+  }
+
   autoLogout(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
       this.dialogService.openSimpleDialog(
@@ -88,6 +107,7 @@ export class AuthService {
     this._user.next(null);
     this.router.navigate(['/auth/login']);
     localStorage.removeItem('userData');
+    localStorage.removeItem('empresaData');
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
@@ -127,6 +147,14 @@ export class AuthService {
       const expirationDuration =
         new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
       this.autoLogout(expirationDuration);
+      const empresaData: {
+        id_empresa: number;
+        no_empresa: string;
+        ri_empresa: string;
+      } = JSON.parse(localStorage.getItem('empresaData'));
+      if (empresaData) {
+        this.setEmpresa(empresaData);
+      }
     }
     return of(true);
   }

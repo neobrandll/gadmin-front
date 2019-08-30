@@ -1,1 +1,11 @@
-<p>menu-navbar works!</p>
+<mat-toolbar  class="navbar">
+  <div style="box-sizing: border-box; display: inline-block">
+    <span class="brand" routerLink="/empresa/menu">GADMIN</span>
+    <span style="padding-left: 60px" routerLink="/auth/preMenu">Cambiar Empresa</span>
+  </div>
+  <div style="box-sizing: border-box; display: inline-block" >
+    <span class="navItem" >{{nombreEmpresa}}</span>
+    <span class="navItem" >{{user.user}}</span>
+    <span class="navItem" (click)="onLogout()">Cerrar Sesión</span>
+  </div>
+</mat-toolbar>

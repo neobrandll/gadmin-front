@@ -6,10 +6,12 @@ import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { CreateEmpresaComponent } from './components/create-empresa/create-empresa.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { MenuComponent } from './components/menu/menu.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'create', pathMatch: 'full' },
-  { path: 'create', component: CreateEmpresaComponent, canActivate: [AuthGuard] }
+  { path: 'create', component: CreateEmpresaComponent, canActivate: [AuthGuard] },
+  { path: 'menu', component: MenuComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -20,6 +22,6 @@ const routes: Routes = [
     MaterialModule,
     SharedModule
   ],
-  declarations: [CreateEmpresaComponent]
+  declarations: [CreateEmpresaComponent, MenuComponent]
 })
 export class EmpresaModule {}

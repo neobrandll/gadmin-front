@@ -1,1 +1,43 @@
-<p>menu works!</p>
+<div class="container-fluid ctn" style="padding: 0">
+  <app-menu-navbar [user]="user" [nombreEmpresa]="empresa?.no_empresa"
+                   *ngIf="user && empresa"></app-menu-navbar>
+  <div class="row no-gutters justify-content-center">
+    <div class="col-10" id="card">
+      <div class="container-fluid">
+<!--        <div class="row no-gutters justify-content-center">-->
+<!--          <div class="col-12">-->
+<!--            <div class="mat-display-2 text-center">MENU</div>-->
+<!--          </div>-->
+<!--        </div>-->
+        <div class="row no-gutters justify-content-around" style="margin: 3% 0">
+          <div class="col-2 btn" >
+          <div style="width: 80%" class="center-block">
+            <img class="img-fluid " src="assets/cow2.png " alt="logo">
+          </div>
+          <div class="mat-display-1 text-center logo-title">Ganado</div>
+        </div>
+          <div class="col-2 btn" >
+            <div style="width: 80%" class="center-block">
+              <img class="img-fluid " src="assets/milk-products.png " alt="logo">
+            </div>
+            <div class="mat-display-1 text-center logo-title" >Producción</div>
+          </div>
+        </div>
+        <div class="row no-gutters justify-content-around" style="margin: 3% 0">
+          <div class="col-2 btn" routerLink="/raza">
+            <div style="width: 80%" class="center-block">
+              <img class="img-fluid " src="assets/dna.png " alt="logo">
+            </div>
+            <div class="mat-display-1 text-center logo-title">Razas</div>
+          </div>
+          <div class="col-2 btn">
+            <div style="width: 80%" class="center-block">
+              <img class="img-fluid " src="assets/barn.png " alt="logo">
+            </div>
+            <div class="mat-display-1 text-center logo-title" >Actividades</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ import { EmpresaLogin, User } from '../../models/user.model';
 import { AuthService } from '../../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pre-menu',
@@ -18,7 +19,7 @@ export class PreMenuComponent implements OnInit, OnDestroy {
   dataSource: any;
   displayedColumns: string[] = ['no_empresa', 'ri_empresa'];
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.userSub = this.authService.user.subscribe(user => {
@@ -42,7 +43,8 @@ export class PreMenuComponent implements OnInit, OnDestroy {
   }
 
   onEmpresaSelected(empresa: EmpresaLogin) {
-    console.log(empresa);
+    this.authService.setEmpresa(empresa);
+    this.router.navigate(['empresa/menu']);
   }
 
   applyFilter(filterValue: string) {

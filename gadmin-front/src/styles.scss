@@ -9,6 +9,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/images";
 // Import Bootstrap Reboot
 @import "~bootstrap/scss/reboot";
 @import "~bootstrap/scss/grid";
@@ -54,3 +55,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   src: url("assets/quantify/quantify-webfont.woff") format("woff"),
   url('assets/quantify/quantify-webfont.ttf')  format('truetype');
 }
+

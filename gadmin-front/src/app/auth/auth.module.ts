@@ -8,8 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RegisterComponent } from './components/register/register.component';
 import { PreMenuComponent } from './components/pre-menu/pre-menu.component';
 import { AuthGuard } from '../guards/auth.guard';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptorService } from '../interceptors/auth-interceptor.service';
+
 import { CoreModule } from '../core.module';
 
 const routes: Routes = [

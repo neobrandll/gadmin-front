@@ -5,8 +5,9 @@ import { Router } from '@angular/router';
 import { DialogService } from './dialog.service';
 import { environment } from '../../environments/environment';
 import { exhaustMap, switchMap, take, tap } from 'rxjs/operators';
-import { User } from '../auth/models/user.model';
+import { EmpresaLogin, User } from '../auth/models/user.model';
 import { AuthService } from './auth.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +49,7 @@ export class EmpresaService {
               }
             ]
           );
-          this.authService._user.next(newUser);
+          this.authService.updateUser(newUser);
           this.dialogService.openSimpleDialog(
             'Empresa Creada',
             `la empresa ${response.empresa.no_empresa} fue creada con exito`,
@@ -58,7 +59,13 @@ export class EmpresaService {
           );
         },
         error => {
-          this.dialogService.openSimpleDialog('Error', error.error.message, () => {});
+          let allErrors = '';
+          for (error of error.error.data) {
+            allErrors += ` ${error.msg}`;
+          }
+          this.dialogService.openSimpleDialog('Error', allErrors, () => {
+            console.log(error);
+          });
         }
       )
     );
