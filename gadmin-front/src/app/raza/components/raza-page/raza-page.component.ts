@@ -6,6 +6,7 @@ import { EmpresaService } from '../../../services/empresa.service';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { RazaService } from '../../../services/raza.service';
 import { Raza } from '../../models/raza.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-raza-page',
@@ -22,10 +23,13 @@ export class RazaPageComponent implements OnInit, OnDestroy {
   empresaSub: Subscription;
   ELEMENT_DATA: Raza[];
   dataSource: any;
-  razas: Raza[];
   displayedColumns: string[] = ['de_raza'];
 
-  constructor(private authService: AuthService, private razaService: RazaService) {}
+  constructor(
+    private authService: AuthService,
+    private razaService: RazaService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.userSub = this.authService.user.subscribe(user => {
@@ -55,5 +59,9 @@ export class RazaPageComponent implements OnInit, OnDestroy {
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  updateRaza(raza: Raza) {
+    this.router.navigate(['/raza/update', raza.id_raza]);
   }
 }

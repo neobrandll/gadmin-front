@@ -1,0 +1,39 @@
+<div class="container-fluid ctn" style="padding: 0">
+  <app-menu-navbar [user]="user" [nombreEmpresa]="empresa.no_empresa"
+                   *ngIf="user && empresa"></app-menu-navbar>
+  <div class="container-fluid">
+    <div class="row no-gutters justify-content-center" *ngIf="isLoading">
+      <div class="col-3 center-block main-card">
+        <app-loading-spinner></app-loading-spinner>
+      </div>
+    </div>
+    <div class="row no-gutters justify-content-center" *ngIf="!isLoading && razaForm">
+      <div class="col-10">
+        <div class="container-fluid main-card">
+          <div class="row no-gutters justify-content-around">
+            <div class="col-3 align-items-center">
+              <img class="logo-img" src="assets/dna.png " alt="logo">
+              <div class="mat-headline text-center" style="margin-top: 20px">EDITAR RAZA</div>
+            </div>
+            <div class="col-9 text-center">
+              <div class="container-fluid">
+                <div class="row no-gutters">
+                  <div class="col-12">
+                    <form [formGroup]="razaForm">
+                      <mat-form-field class="input" style="width: 80%;">
+                        <mat-label>Descripcion de la raza</mat-label>
+                        <input matInput formControlName="deRaza">
+                      </mat-form-field>
+                    </form>
+                  </div>
+                </div>
+                <div class="row no-gutters justify-content-around">
+                  <div class="col-4" style="margin-top: 20px">
+                    <button  routerLink="/raza" mat-raised-button color="primary"><div class="mat-headline" style="margin: 0">Volver</div></button>
+                  </div>
+                  <div class="col-4" style="margin-top: 20px">
+                    <button [disabled]="!razaForm.valid" (click)="onUpdate()" mat-raised-button color="primary"><div class="mat-headline" style="margin: 0">Actualizar raza</div></button>
+                  </div>
+                </div>
+              </div>
+            </div>

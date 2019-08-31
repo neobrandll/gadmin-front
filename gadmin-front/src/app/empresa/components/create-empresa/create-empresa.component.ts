@@ -4,6 +4,7 @@ import { User } from '../../../auth/models/user.model';
 import { AuthService } from '../../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { EmpresaService } from '../../../services/empresa.service';
+import { DialogService } from '../../../services/dialog.service';
 
 @Component({
   selector: 'app-create-empresa',
@@ -16,7 +17,11 @@ export class CreateEmpresaComponent implements OnInit, OnDestroy {
   empresaInfoForm: FormGroup;
   userSub: Subscription;
   isLoading = false;
-  constructor(private authService: AuthService, private empresaService: EmpresaService) {}
+  constructor(
+    private authService: AuthService,
+    private empresaService: EmpresaService,
+    private dialogService: DialogService
+  ) {}
 
   ngOnInit() {
     this.userSub = this.authService.user.subscribe(user => {
@@ -56,13 +61,23 @@ export class CreateEmpresaComponent implements OnInit, OnDestroy {
     this.authService.logout();
   }
   onCreateEmpresa() {
+    const nombreEmpresa = this.empresaInfoForm.value.nombre.trim();
+    const rifEmpresa = this.empresaInfoForm.value.rif;
+    const pais = this.addressForm.value.pais.trim();
+    const estado = this.addressForm.value.estado.trim();
+    const ciudad = this.addressForm.value.ciudad.trim();
+    const calle = this.addressForm.value.calle.trim();
+    if (nombreEmpresa === '' || pais === '' || estado === '' || ciudad === '' || calle === '') {
+      this.dialogService.openSimpleDialog('Error', `Los campos no pueden estar vacios`, () => {});
+      return;
+    }
     const newEmpresa = {
-      nombreEmpresa: this.empresaInfoForm.value.nombre,
-      rifEmpresa: this.empresaInfoForm.value.rif,
-      pais: this.addressForm.value.pais,
-      estado: this.addressForm.value.estado,
-      ciudad: this.addressForm.value.ciudad,
-      calle: this.addressForm.value.calle
+      nombreEmpresa,
+      rifEmpresa,
+      pais,
+      estado,
+      ciudad,
+      calle
     };
     this.isLoading = true;
     this.empresaService

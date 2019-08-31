@@ -7,10 +7,10 @@
       <span class="navItem" (click)="onLogout()">Cerrar Sesión</span>
     </div>
   </mat-toolbar>
-  <div class="container-fluid">
+  <div class="container-fluid" style="margin-top: 2%">
       <div class="row no-gutters justify-content-center">
           <div class="col-8" id="card">
-            <div class="mat-display-1 text-center" style="padding-top: 50px">ELIJA LA EMPRESA A ADMINISTRAR</div>
+            <div class="mat-display-1 text-center" style="padding-top: 20px; margin-bottom: 10px">ELIJA LA EMPRESA A ADMINISTRAR</div>
             <div class="container" *ngIf="!user?.empresas?.length>0">
                 <div class="mat-headline text-center" >El usuario no posee ningún cargo en ninguna empresa</div>
             </div>

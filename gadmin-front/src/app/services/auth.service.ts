@@ -92,6 +92,10 @@ export class AuthService {
   }
 
   autoLogout(expirationDuration: number) {
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+      this.tokenExpirationTimer = null;
+    }
     this.tokenExpirationTimer = setTimeout(() => {
       this.dialogService.openSimpleDialog(
         'Su sesión expiro',
@@ -105,13 +109,13 @@ export class AuthService {
 
   logout() {
     this._user.next(null);
-    this.router.navigate(['/auth/login']);
     localStorage.removeItem('userData');
     localStorage.removeItem('empresaData');
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
     this.tokenExpirationTimer = null;
+    this.router.navigate(['/auth/login']);
   }
 
   autoLogin() {

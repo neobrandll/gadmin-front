@@ -25,11 +25,14 @@
         <div class="row no-gutters justify-content-center">
           <div class="col-8 text-center">
             <mat-form-field class="input">
-              <mat-label>Contrasena</mat-label>
+              <mat-label>Contraseña</mat-label>
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
               <mat-error *ngIf="!form.get('password').valid && form.get('password').touched">
                 Debe de poseer al menos 5 caracteres
               </mat-error>
-              <input matInput formControlName="password" type="password" >
+              <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" >
               <mat-hint>Debe de poseer al menos 5 caracteres</mat-hint>
             </mat-form-field>
           </div>

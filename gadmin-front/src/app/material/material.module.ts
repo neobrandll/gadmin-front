@@ -9,7 +9,12 @@ import {
   MatToolbarModule,
   MatTableModule,
   MatPaginatorModule,
-  MatPaginatorIntl
+  MatPaginatorIntl,
+  MatIconModule,
+  MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MAT_DATE_LOCALE
 } from '@angular/material';
 import { CustomPaginator } from './custom-paginator';
 
@@ -22,12 +27,19 @@ const Material = [
   MatStepperModule,
   MatToolbarModule,
   MatTableModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatIconModule,
+  MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 ];
 
 @NgModule({
   imports: [Material],
   exports: [Material],
-  providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginator }]
+  providers: [
+    { provide: MatPaginatorIntl, useClass: CustomPaginator },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+  ]
 })
 export class MaterialModule {}

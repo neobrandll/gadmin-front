@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
+import { DialogService } from '../../../services/dialog.service';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,7 @@ export class RegisterComponent implements OnInit {
   userForm: FormGroup;
   isLoading = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private dialogService: DialogService) {}
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -81,20 +82,45 @@ export class RegisterComponent implements OnInit {
     if (!this.form.valid || !this.userForm.valid || !this.infoForm.valid) {
       return;
     }
+    const nombre = this.infoForm.value.nombre.trim();
+    const apellido = this.infoForm.value.apellido.trim();
+    const email = this.infoForm.value.email.trim();
+    const password = this.userForm.value.password.trim();
+    const confirmPassword = this.userForm.value.passwordConfirm.trim();
+    const user = this.userForm.value.user.trim();
+    const pais = this.form.value.pais.trim();
+    const estado = this.form.value.estado.trim();
+    const ciudad = this.form.value.ciudad.trim();
+    const calle = this.form.value.calle.trim();
+    if (
+      nombre === '' ||
+      apellido === '' ||
+      email === '' ||
+      password === '' ||
+      confirmPassword === '' ||
+      user === '' ||
+      pais === '' ||
+      estado === '' ||
+      ciudad === '' ||
+      calle === ''
+    ) {
+      this.dialogService.openSimpleDialog('Error', `Los campos no pueden estar vacios`, () => {});
+      return;
+    }
     this.isLoading = true;
     const registerData = {
-      nombre: this.infoForm.value.nombre,
-      apellido: this.infoForm.value.apellido,
-      email: this.infoForm.value.email,
+      nombre,
+      apellido,
+      email,
       telf: this.infoForm.value.telefono,
       ci: +this.infoForm.value.cedula,
-      password: this.userForm.value.password,
-      confirmPassword: this.userForm.value.passwordConfirm,
-      user: this.userForm.value.user,
-      pais: this.form.value.pais,
-      estado: this.form.value.estado,
-      ciudad: this.form.value.ciudad,
-      calle: this.form.value.calle
+      password,
+      confirmPassword,
+      user,
+      pais,
+      estado,
+      ciudad,
+      calle
     };
     this.authService.register(registerData).subscribe(
       () => {

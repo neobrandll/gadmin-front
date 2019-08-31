@@ -7,13 +7,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
 import { RazaPageComponent } from './components/raza-page/raza-page.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { CreateRazaComponent } from './components/create-raza/create-raza.component';
+import { UpdateRazaComponent } from './components/update-raza/update-raza.component';
 
 const routes: Routes = [
   {
     path: '',
     component: RazaPageComponent,
-    canActivate: [AuthGuard]
-  }
+    canActivate: [AuthGuard],
+    pathMatch: 'full'
+  },
+  { path: 'create', component: CreateRazaComponent, canActivate: [AuthGuard] },
+  { path: 'update/:idRaza', component: UpdateRazaComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -25,6 +30,6 @@ const routes: Routes = [
     SharedModule,
     CoreModule
   ],
-  declarations: [RazaPageComponent]
+  declarations: [RazaPageComponent, CreateRazaComponent, UpdateRazaComponent]
 })
 export class RazaModule {}
