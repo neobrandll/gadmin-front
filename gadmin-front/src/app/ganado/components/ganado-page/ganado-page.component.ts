@@ -6,9 +6,10 @@ import { GanadoService } from '../../../services/ganado.service';
 import { take } from 'rxjs/operators';
 import { Raza } from '../../../raza/models/raza.model';
 import { SearchGanadoResultSet } from '../../models/ganado.model';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { RazaService } from '../../../services/raza.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ganado-page',
@@ -18,6 +19,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class GanadoPageComponent implements OnInit, OnDestroy {
   // @ts-ignore
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ts-ignore
+  @ViewChild(MatSort) sort: MatSort;
   userSub: Subscription;
   empresaSub: Subscription;
   user: User;
@@ -34,10 +37,16 @@ export class GanadoPageComponent implements OnInit, OnDestroy {
   razas: Raza[];
   maxDate = new Date();
   dateFrom: any;
+  dateTo: any;
+  idRaza: number;
+  tipoGanado: number;
+  idEstadoGanado: number;
+
   constructor(
     private authService: AuthService,
     private ganadoService: GanadoService,
-    private razaService: RazaService
+    private razaService: RazaService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -54,6 +63,7 @@ export class GanadoPageComponent implements OnInit, OnDestroy {
         this.ELEMENT_DATA = ganadoResponse;
         this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       });
     this.razaService
       .getRazas()
@@ -76,7 +86,44 @@ export class GanadoPageComponent implements OnInit, OnDestroy {
     return new Date(date);
   }
 
-  onTest() {
-    console.log(this.dateFrom);
+  onFilter() {
+    const filterParams = {};
+    if (this.dateFrom) {
+      // @ts-ignore
+      filterParams.dateFrom = `${this.dateFrom.getMonth() +
+        1}-${this.dateFrom.getDate()}-${this.dateFrom.getFullYear()}`;
+    }
+    if (this.dateTo) {
+      // @ts-ignore
+      filterParams.dateTo = `${this.dateTo.getMonth() +
+        1}-${this.dateTo.getDate()}-${this.dateTo.getFullYear()}`;
+    }
+    if (this.idRaza) {
+      // @ts-ignore
+      filterParams.idRaza = this.idRaza;
+    }
+    if (this.idEstadoGanado) {
+      // @ts-ignore
+      filterParams.idEstadoGanado = this.idEstadoGanado;
+    }
+    if (this.tipoGanado) {
+      // @ts-ignore
+      filterParams.tipoGanado = this.tipoGanado;
+    }
+    this.ganadoService
+      .searchGanado(filterParams)
+      .pipe(take(1))
+      .subscribe(ganadoResponse => {
+        this.ELEMENT_DATA = ganadoResponse;
+        this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
+    this.dateFrom = null;
+    this.dateTo = null;
+  }
+
+  goToProfile(ganadoData: SearchGanadoResultSet) {
+    this.router.navigate(['/ganado', ganadoData.co_ganado]);
   }
 }

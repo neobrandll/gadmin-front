@@ -7,6 +7,8 @@ import { SharedModule } from '../shared/shared.module';
 
 import { AuthGuard } from '../guards/auth.guard';
 import { GanadoPageComponent } from './components/ganado-page/ganado-page.component';
+import { CreateGanadoComponent } from './components/create-ganado/create-ganado.component';
+import { GanadoProfileComponent } from './components/ganado-profile/ganado-profile.component';
 
 const routes: Routes = [
   {
@@ -14,7 +16,13 @@ const routes: Routes = [
     component: GanadoPageComponent,
     canActivate: [AuthGuard],
     pathMatch: 'full'
-  }
+  },
+  {
+    path: 'create',
+    component: CreateGanadoComponent,
+    canActivate: [AuthGuard]
+  },
+  { path: ':coGanado', component: GanadoProfileComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -26,6 +34,6 @@ const routes: Routes = [
     MaterialModule,
     SharedModule
   ],
-  declarations: [GanadoPageComponent]
+  declarations: [GanadoPageComponent, CreateGanadoComponent, GanadoProfileComponent]
 })
 export class GanadoModule {}

@@ -1,0 +1,132 @@
+<div class="container-fluid ctn" style="padding: 0">
+  <app-menu-navbar [user]="user" [nombreEmpresa]="empresa.no_empresa"
+                   *ngIf="user && empresa"></app-menu-navbar>
+  <div class="container-fluid">
+    <div class="row no-gutters justify-content-center">
+      <div class="col-10">
+        <div class="container-fluid main-card" style="padding-bottom: 20px">
+            <div class="row no-gutters justify-content-around">
+              <div class="col-12">
+                <div class="mat-display-1 text-center">FICHA GANADO</div>
+              </div>
+            </div>
+          <div class="row no-gutters justify-content-center">
+            <div class="col-3 align-items-center" *ngIf="ganadoURL">
+              <img class="logo-img"  [src]="ganadoURL" alt="logo">
+              <div class="mat-headline text-center" style="margin-top: 20px">FOTO DEL GANADO</div>
+            </div>
+            <div class="col-9" [ngClass]="{'col-9': ganadoURL, 'col-12': !ganadoURL}" *ngIf="ganadoForm">
+              <form style="display: inline" [formGroup]="ganadoForm">
+                <div class="container-fluid">
+                  <div class="row no-gutters justify-content-center" *ngIf="razas && maxDate && ganado">
+                    <div class="col-4">
+                      <mat-form-field>
+                        <mat-label>Estado del Ganado</mat-label>
+                        <mat-select formControlName="idEstadoGanado">
+                          <mat-option value="3">Disponible</mat-option>
+                          <mat-option value="1">Fallecido</mat-option>
+                          <mat-option value="2">Vendido</mat-option>
+                          <mat-option value="4">Preñada</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-4" *ngIf="razas?.length>0">
+                      <mat-form-field>
+                        <mat-label>Raza</mat-label>
+                        <mat-select formControlName="idRaza">
+                          <mat-option value="Mestizo">Mestizo</mat-option>
+                          <span *ngFor="let raza of razas">
+                          <mat-option *ngIf="raza.de_raza.toLowerCase() != 'mestizo'"
+                                      [value]="raza.id_raza">{{raza.de_raza}}</mat-option>
+                            </span>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-4" *ngIf="razas?.length>0">
+                      <mat-form-field>
+                        <mat-label>Tipo de Ganado</mat-label>
+                        <mat-select formControlName="tipoGanado">
+                          <mat-option value="1">Toro</mat-option>
+                          <mat-option value="2">Vaca</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row no-gutters" *ngIf="razas && maxDate && ganado">
+                    <div class="col-4">
+                      <mat-form-field>
+                        <input matInput [matDatepicker]="datePicker" formControlName="date" [max]="maxDate"
+                               disabled>
+                        <mat-datepicker-toggle [for]="datePicker" matSuffix></mat-datepicker-toggle>
+                        <mat-datepicker #datePicker disabled="false"></mat-datepicker>
+                        <mat-label>Fecha de nacimiento</mat-label>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-4">
+                      <mat-form-field>
+                        <mat-label>Código del Ganado</mat-label>
+                        <input formControlName="codigoGanado" matInput type="number" max="999999999">
+                        <mat-error>
+                          Debe de ser un número entero y de máximo 9 digitos
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-4">
+                      <mat-form-field>
+                        <mat-label>Peso del Ganado</mat-label>
+                        <input matInput type="number" formControlName="pesoGanado">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                                  <div class="row no-gutters" *ngIf="razas && maxDate && ganado">
+                                    <div class="col-4" *ngIf="ganado?.madre_codigo">
+                                      <div class="d-flex align-items-center" style="width: 80%">
+                                        <span style="padding-right: 10px">Código Madre:</span>
+                                        <button [routerLink]="['/ganado',ganado.madre_codigo]" mat-button>{{ganado.madre_codigo}}</button>
+                                      </div>
+                                    </div>
+                                    <div class="col-4" *ngIf="ganado?.padre_codigo">
+                                      <div class="d-flex align-items-center" style="width: 80%">
+                                        <span style="padding-right: 10px">Código Padre:</span>
+                                        <button [routerLink]="['/ganado', ganado.padre_codigo]" mat-button>{{ganado.padre_codigo}}</button>
+                                      </div>
+                                    </div>
+                                    <div class="col-4" *ngIf="ganado?.pajuela_padre_codigo">
+                                      <div class="d-flex align-items-center" style="width: 80%">
+                                        <span style="padding-right: 10px">Código Pajuela Padre:</span>
+                                        <button mat-button>{{ganado.pajuela_padre_codigo}}</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                  <div class="row no-gutters justify-content-around" style="margin-top: 60px">
+                    <div class="col-3 d-flex justify-content-center">
+                      <button mat-raised-button color="primary"   (click)="goBack()">
+                        <div class="mat-headline" style="margin: 0">Volver</div>
+                      </button>
+                    </div>
+                    <div class="col-3 d-flex  align-items-center justify-content-center">
+                      <app-custom-input-file (onFileSelect)="onFileSelect($event)"
+                                             [accept]="'image/png, image/jpeg, image/jpg'">
+                        <span class="nofiles">Modificar Foto</span>
+                        <span *ngIf="fotoGanado" class="selected">{{fotoGanado.name}}</span>
+                      </app-custom-input-file>
+                    </div>
+                    <div class="col-3 d-flex justify-content-center">
+                      <button mat-raised-button color="primary"  [disabled]="ganadoForm.invalid" >
+                        <div class="mat-headline" style="margin: 0">Modificar Ganado</div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

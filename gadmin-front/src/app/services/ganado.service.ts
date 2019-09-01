@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { DialogService } from './dialog.service';
 import { Router } from '@angular/router';
-import { SearchGanadoInput, SearchGanadoResponse } from '../ganado/models/ganado.model';
-import { map, switchMap, take } from 'rxjs/operators';
+import { Ganado, SearchGanadoInput, SearchGanadoResponse } from '../ganado/models/ganado.model';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { Form } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +53,65 @@ export class GanadoService {
       map(ganadoList => {
         return ganadoList.rs;
       })
+    );
+  }
+
+  createGanado(ganadoData: FormData) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'multipart/form-data'
+      })
+    };
+    return this.http.post(`${environment.url}/ganado`, ganadoData).pipe(
+      tap(
+        () => {
+          this.dialogService.openSimpleDialog(
+            'Ganado creado',
+            `El Ganado fue creado con exito`,
+            () => {
+              this.router.navigate(['/ganado']);
+            }
+          );
+        },
+        errorData => {
+          let allErrors = '';
+          for (const [index, error] of errorData.error.data.entries()) {
+            if (index === 0) {
+              allErrors += `${error.msg}`;
+            } else {
+              allErrors += `, ${error.msg}`;
+            }
+          }
+          this.dialogService.openSimpleDialog('Error', allErrors, () => {});
+        }
+      )
+    );
+  }
+
+  getGanado(coGanado: string | number) {
+    return this.authService.empresa.pipe(
+      take(1),
+      switchMap(empresaData => {
+        return this.http.get<Ganado>(
+          `${environment.url}/ganado/${empresaData.id_empresa}/${coGanado}`
+        );
+      }),
+      tap(
+        () => {},
+        errorData => {
+          let allErrors = '';
+          for (const [index, error] of errorData.error.data.entries()) {
+            if (index === 0) {
+              allErrors += `${error.msg}`;
+            } else {
+              allErrors += `, ${error.msg}`;
+            }
+          }
+          this.dialogService.openSimpleDialog('Error', allErrors, () => {
+            this.router.navigate(['/ganado']);
+          });
+        }
+      )
     );
   }
 }

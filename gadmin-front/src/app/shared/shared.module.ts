@@ -7,11 +7,22 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptorService } from '../interceptors/auth-interceptor.service';
 import { MenuNavbarComponent } from './components/menu-navbar/menu-navbar.component';
 import { RouterModule } from '@angular/router';
+import { CustomInputFileComponent } from './components/custom-input-file/custom-input-file.component';
 
 @NgModule({
   imports: [CommonModule, MaterialModule, RouterModule],
-  declarations: [DialogComponent, LoadingSpinnerComponent, MenuNavbarComponent],
-  exports: [DialogComponent, LoadingSpinnerComponent, MenuNavbarComponent],
+  declarations: [
+    DialogComponent,
+    LoadingSpinnerComponent,
+    MenuNavbarComponent,
+    CustomInputFileComponent
+  ],
+  exports: [
+    DialogComponent,
+    LoadingSpinnerComponent,
+    MenuNavbarComponent,
+    CustomInputFileComponent
+  ],
   entryComponents: [DialogComponent]
 })
 export class SharedModule {}
