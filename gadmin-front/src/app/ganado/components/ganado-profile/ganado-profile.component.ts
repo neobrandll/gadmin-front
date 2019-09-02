@@ -60,7 +60,6 @@ export class GanadoProfileComponent implements OnInit, OnDestroy {
       )
       .subscribe(ganadoData => {
         this.ganado = ganadoData;
-        console.log(ganadoData);
         if (ganadoData.fo_ganado) {
           this.ganadoURL = `${environment.url}/${ganadoData.fo_ganado}`;
         }
@@ -122,5 +121,78 @@ export class GanadoProfileComponent implements OnInit, OnDestroy {
 
   goBack() {
     this.location.back();
+  }
+
+  onUpdate() {
+    if (this.ganadoForm.invalid) {
+      this.dialogService.openSimpleDialog('Error', 'Todos los campos son necesarios', () => {});
+      return;
+    }
+    const idEstadoGanado = this.ganadoForm.value.idEstadoGanado;
+    const tipoGanado = this.ganadoForm.value.tipoGanado;
+    const codigoGanado = this.ganadoForm.value.codigoGanado;
+    const pesoGanado = this.ganadoForm.value.pesoGanado;
+    const date: Date = this.ganadoForm.value.date;
+    const idRaza = this.ganadoForm.value.idRaza;
+    if (+idEstadoGanado === 4 && +tipoGanado === 1) {
+      this.dialogService.openSimpleDialog(
+        'Error',
+        'El tipo de ganado no coincide con el estado del ganado',
+        () => {}
+      );
+      return;
+    }
+    if (!codigoGanado || !Number.isInteger(codigoGanado)) {
+      this.dialogService.openSimpleDialog(
+        'Error',
+        'El código del Ganado debe de ser un número entero',
+        () => {}
+      );
+      return;
+    }
+    if (typeof pesoGanado !== 'number') {
+      this.dialogService.openSimpleDialog(
+        'Error',
+        'El peso del ganado debe de ser un número',
+        () => {}
+      );
+      return;
+    }
+    if (this.fotoGanado) {
+      if (
+        this.fotoGanado.type !== 'image/jpg' &&
+        this.fotoGanado.type !== 'image/jpeg' &&
+        this.fotoGanado.type !== 'image/png'
+      ) {
+        this.dialogService.openSimpleDialog(
+          'Error',
+          'El formato de la foto es invalido, solo se permiten jpg, jpeg y png',
+          () => {}
+        );
+        return;
+      }
+    }
+    const ganadoDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    const FD = new FormData();
+    FD.set('idRaza', idRaza);
+    FD.set('idEmpresa', `${this.empresa.id_empresa}`);
+    FD.set('tipoGanado', tipoGanado);
+    FD.set('idEstadoGanado', idEstadoGanado);
+    FD.set('peGanado', `${pesoGanado}`);
+    FD.set('feGanado', `${ganadoDate}`);
+    FD.set('newCoGanado', `${codigoGanado}`);
+    FD.set('coGanado', `${this.ganado.co_ganado}`);
+    if (this.fotoGanado) {
+      FD.set('foGanado', this.fotoGanado);
+    }
+    this.isLoading = true;
+    this.ganadoService.updateGanado(FD).subscribe(
+      () => {
+        this.isLoading = false;
+      },
+      () => {
+        this.isLoading = false;
+      }
+    );
   }
 }

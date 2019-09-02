@@ -1,25 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthService } from './auth.service';
-import { DialogService } from './dialog.service';
-import { Router } from '@angular/router';
 import { Ganado, SearchGanadoInput, SearchGanadoResponse } from '../ganado/models/ganado.model';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { Form } from '@angular/forms';
+import { AuthService } from './auth.service';
+import { HttpClient } from '@angular/common/http';
+import {
+  CreatePajuela,
+  Pajuela,
+  SearchPajuelaInput,
+  SearchPajuelaResultSet,
+  UpdatePajuela
+} from '../pajuela/models/pajuela.model';
+import { DialogService } from './dialog.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GanadoService {
+export class PajuelaService {
   constructor(
-    private http: HttpClient,
     private authService: AuthService,
+    private http: HttpClient,
     private dialogService: DialogService,
     private router: Router
   ) {}
 
-  searchGanado(params?: SearchGanadoInput) {
+  searchPajuela(params?: SearchPajuelaInput) {
     const paramArr = [];
     let queryString;
     if (params) {
@@ -44,27 +50,27 @@ export class GanadoService {
     return this.authService.empresa.pipe(
       take(1),
       switchMap(empresaData => {
-        let url = `${environment.url}/ganado/search/${empresaData.id_empresa}`;
+        let url = `${environment.url}/pajuela/search/${empresaData.id_empresa}`;
         if (queryString && queryString.trim() !== '') {
           url += queryString.trim();
         }
-        return this.http.get<SearchGanadoResponse>(url);
+        return this.http.get<SearchPajuelaResultSet>(url);
       }),
-      map(ganadoList => {
-        return ganadoList.rs;
+      map(pajuelaList => {
+        return pajuelaList.rs;
       })
     );
   }
 
-  createGanado(ganadoData: FormData) {
-    return this.http.post(`${environment.url}/ganado`, ganadoData).pipe(
+  createPajuela(pajuelaData: CreatePajuela) {
+    return this.http.post(`${environment.url}/pajuela`, pajuelaData).pipe(
       tap(
         () => {
           this.dialogService.openSimpleDialog(
-            'Ganado creado',
-            `El Ganado fue creado con exito`,
+            'Pajuela creada',
+            `La Pajuela fue creada con exito`,
             () => {
-              this.router.navigate(['/ganado']);
+              this.router.navigate(['/pajuela']);
             }
           );
         },
@@ -83,15 +89,15 @@ export class GanadoService {
     );
   }
 
-  updateGanado(ganadoData: FormData) {
-    return this.http.put(`${environment.url}/ganado`, ganadoData).pipe(
+  updatePajuela(pajuelaData: UpdatePajuela) {
+    return this.http.put(`${environment.url}/pajuela`, pajuelaData).pipe(
       tap(
         () => {
           this.dialogService.openSimpleDialog(
-            'Ganado actualizado',
-            `El Ganado fue actualizado con exito`,
+            'Pajuela actualizada',
+            `La Pajuela fue actualizada con exito`,
             () => {
-              this.router.navigate(['/ganado']);
+              this.router.navigate(['/pajuela']);
             }
           );
         },
@@ -110,12 +116,12 @@ export class GanadoService {
     );
   }
 
-  getGanado(coGanado: string | number) {
+  getPajuela(coPajuela: string | number) {
     return this.authService.empresa.pipe(
       take(1),
       switchMap(empresaData => {
-        return this.http.get<Ganado>(
-          `${environment.url}/ganado/${empresaData.id_empresa}/${coGanado}`
+        return this.http.get<Pajuela>(
+          `${environment.url}/pajuela/${empresaData.id_empresa}/${coPajuela}`
         );
       }),
       tap(
@@ -130,7 +136,7 @@ export class GanadoService {
             }
           }
           this.dialogService.openSimpleDialog('Error', allErrors, () => {
-            this.router.navigate(['/ganado']);
+            this.router.navigate(['/pajuela']);
           });
         }
       )

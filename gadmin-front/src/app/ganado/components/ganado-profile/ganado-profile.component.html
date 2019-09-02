@@ -2,17 +2,22 @@
   <app-menu-navbar [user]="user" [nombreEmpresa]="empresa.no_empresa"
                    *ngIf="user && empresa"></app-menu-navbar>
   <div class="container-fluid">
-    <div class="row no-gutters justify-content-center">
+    <div class="row no-gutters justify-content-center" *ngIf="isLoading">
+      <div class="col-3 center-block main-card">
+        <app-loading-spinner></app-loading-spinner>
+      </div>
+    </div>
+    <div class="row no-gutters justify-content-center" *ngIf="!isLoading">
       <div class="col-10">
         <div class="container-fluid main-card" style="padding-bottom: 20px">
-            <div class="row no-gutters justify-content-around">
-              <div class="col-12">
-                <div class="mat-display-1 text-center">FICHA GANADO</div>
-              </div>
+          <div class="row no-gutters justify-content-around">
+            <div class="col-12">
+              <div class="mat-display-1 text-center">FICHA GANADO</div>
             </div>
+          </div>
           <div class="row no-gutters justify-content-center">
             <div class="col-3 align-items-center" *ngIf="ganadoURL">
-              <img class="logo-img"  [src]="ganadoURL" alt="logo">
+              <img class="logo-img" [src]="ganadoURL" alt="logo">
               <div class="mat-headline text-center" style="margin-top: 20px">FOTO DEL GANADO</div>
             </div>
             <div class="col-9" [ngClass]="{'col-9': ganadoURL, 'col-12': !ganadoURL}" *ngIf="ganadoForm">
@@ -78,29 +83,31 @@
                       </mat-form-field>
                     </div>
                   </div>
-                                  <div class="row no-gutters" *ngIf="razas && maxDate && ganado">
-                                    <div class="col-4" *ngIf="ganado?.madre_codigo">
-                                      <div class="d-flex align-items-center" style="width: 80%">
-                                        <span style="padding-right: 10px">Código Madre:</span>
-                                        <button [routerLink]="['/ganado',ganado.madre_codigo]" mat-button>{{ganado.madre_codigo}}</button>
-                                      </div>
-                                    </div>
-                                    <div class="col-4" *ngIf="ganado?.padre_codigo">
-                                      <div class="d-flex align-items-center" style="width: 80%">
-                                        <span style="padding-right: 10px">Código Padre:</span>
-                                        <button [routerLink]="['/ganado', ganado.padre_codigo]" mat-button>{{ganado.padre_codigo}}</button>
-                                      </div>
-                                    </div>
-                                    <div class="col-4" *ngIf="ganado?.pajuela_padre_codigo">
-                                      <div class="d-flex align-items-center" style="width: 80%">
-                                        <span style="padding-right: 10px">Código Pajuela Padre:</span>
-                                        <button mat-button>{{ganado.pajuela_padre_codigo}}</button>
-                                      </div>
-                                    </div>
-                                  </div>
+                  <div class="row no-gutters" *ngIf="razas && maxDate && ganado">
+                    <div class="col-4" *ngIf="ganado?.madre_codigo">
+                      <div class="d-flex align-items-center" style="width: 80%">
+                        <span style="padding-right: 10px">Código Madre:</span>
+                        <button [routerLink]="['/ganado',ganado.madre_codigo]"
+                                mat-button>{{ganado.madre_codigo}}</button>
+                      </div>
+                    </div>
+                    <div class="col-4" *ngIf="ganado?.padre_codigo">
+                      <div class="d-flex align-items-center" style="width: 80%">
+                        <span style="padding-right: 10px">Código Padre:</span>
+                        <button [routerLink]="['/ganado', ganado.padre_codigo]"
+                                mat-button>{{ganado.padre_codigo}}</button>
+                      </div>
+                    </div>
+                    <div class="col-4" *ngIf="ganado?.pajuela_padre_codigo">
+                      <div class="d-flex align-items-center" style="width: 80%">
+                        <span style="padding-right: 10px">Código Pajuela Padre:</span>
+                        <button mat-button>{{ganado.pajuela_padre_codigo}}</button>
+                      </div>
+                    </div>
+                  </div>
                   <div class="row no-gutters justify-content-around" style="margin-top: 60px">
                     <div class="col-3 d-flex justify-content-center">
-                      <button mat-raised-button color="primary"   (click)="goBack()">
+                      <button mat-raised-button color="primary" (click)="goBack()">
                         <div class="mat-headline" style="margin: 0">Volver</div>
                       </button>
                     </div>
@@ -112,7 +119,7 @@
                       </app-custom-input-file>
                     </div>
                     <div class="col-3 d-flex justify-content-center">
-                      <button mat-raised-button color="primary"  [disabled]="ganadoForm.invalid" >
+                      <button (click)="onUpdate()" mat-raised-button color="primary" [disabled]="ganadoForm.invalid">
                         <div class="mat-headline" style="margin: 0">Modificar Ganado</div>
                       </button>
                     </div>

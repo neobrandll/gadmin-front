@@ -7,26 +7,45 @@
         <div class="container-fluid card">
           <div class="row no-gutters justify-content-center">
             <div class="col-8">
-              <div class="mat-display-1 text-center" style="padding-top: 10px; margin-bottom: 10px">Razas</div>
+              <div class="mat-display-1 text-center" style="padding-top: 10px; margin-bottom: 10px">RAZAS</div>
             </div>
           </div>
-          <div class="row no-gutters justify-content-around" *ngIf="ELEMENT_DATA?.length>0">
-            <div class="col-4">
-              <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)">
-                <mat-label>Filtro</mat-label>
-              </mat-form-field>
+          <div class="row no-gutters " *ngIf="ELEMENT_DATA?.length>0">
+            <div class="col-1"></div>
+            <div class="col-10">
+              <div class="container-fluid" style="padding: 0">
+                <div class="row no-gutters">
+                  <div class="col-3 justify-content-center">
+                    <mat-form-field>
+                      <input matInput (keyup)="applyFilter($event.target.value)">
+                      <mat-label>Filtro</mat-label>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-2"></div>
+                  <div class="col-5 d-flex align-items-center justify-content-end" >
+                    <button mat-raised-button color="primary" routerLink="/raza/create"><div class="mat-headline" style="margin: 0">Crear raza</div></button>
+                  </div>
+                  <div class="col-2 d-flex  align-items-center justify-content-end">
+                    <button mat-raised-button color="primary" routerLink="/empresa/menu">
+                      <div class="mat-headline" style="margin: 0">Volver</div>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="col-2 d-flex align-items-center" >
-              <button mat-raised-button color="primary" routerLink="/raza/create"><div class="mat-headline" style="margin: 0">Crear raza</div></button>
-            </div>
+            <div class="col-1"></div>
           </div>
           <div class="row no-gutters justify-content-center" *ngIf="!ELEMENT_DATA?.length>0">
-            <div class="col-4">
-              <div class="mat-headline">La empresa no posee razas</div>
+            <div class="col-5 text-center">
+              <div class="mat-headline text-center">LA EMPRESA NO POSEE RAZAS</div>
             </div>
-            <div class="col-2">
+            <div class="col-3 d-flex align-items-start justify-content-end">
               <button mat-raised-button color="primary" routerLink="/raza/create"><div class="mat-headline" style="margin: 0">Crear raza</div></button>
+            </div>
+            <div class="col-2 d-flex align-items-start justify-content-end">
+              <button mat-raised-button color="primary" routerLink="/empresa/menu">
+                <div class="mat-headline" style="margin: 0">Volver</div>
+              </button>
             </div>
           </div>
           <div class="row no-gutters justify-content-center">

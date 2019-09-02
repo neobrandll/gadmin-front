@@ -1,23 +1,22 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { EmpresaLogin, User } from '../../../auth/models/user.model';
-import { AuthService } from '../../../services/auth.service';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
-import { GanadoService } from '../../../services/ganado.service';
-import { take } from 'rxjs/operators';
+import { EmpresaLogin, User } from '../../../auth/models/user.model';
 import { Raza } from '../../../raza/models/raza.model';
-import { SearchGanadoResultSet } from '../../models/ganado.model';
-import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
+import { AuthService } from '../../../services/auth.service';
 import { RazaService } from '../../../services/raza.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DialogService } from '../../../services/dialog.service';
+import { take } from 'rxjs/operators';
+import { PajuelaService } from '../../../services/pajuela.service';
+import { Pajuela } from '../../models/pajuela.model';
 
 @Component({
-  selector: 'app-ganado-page',
-  templateUrl: './ganado-page.component.html',
-  styleUrls: ['./ganado-page.component.scss']
+  selector: 'app-pajuela-page',
+  templateUrl: './pajuela-page.component.html',
+  styleUrls: ['./pajuela-page.component.scss']
 })
-export class GanadoPageComponent implements OnInit, OnDestroy {
+export class PajuelaPageComponent implements OnInit, OnDestroy {
   // @ts-ignore
   @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ts-ignore
@@ -26,29 +25,22 @@ export class GanadoPageComponent implements OnInit, OnDestroy {
   empresaSub: Subscription;
   user: User;
   empresa: EmpresaLogin;
-  ELEMENT_DATA: SearchGanadoResultSet[];
+  ELEMENT_DATA: Pajuela[];
   dataSource: any;
-  displayedColumns: string[] = [
-    'co_ganado',
-    'de_tipo_ganado',
-    'de_raza',
-    'fe_ganado',
-    'de_estado_ganado'
-  ];
+  displayedColumns: string[] = ['co_pajuela', 'de_pajuela', 'de_raza', 'fe_pajuela'];
   razas: Raza[];
   maxDate = new Date();
   dateFrom: any;
   dateTo: any;
   idRaza: number;
-  tipoGanado: number;
-  idEstadoGanado: number;
-  individualGanado: number;
+  dePajuela: string;
+  individualPajuela: number;
   constructor(
     private authService: AuthService,
-    private ganadoService: GanadoService,
     private razaService: RazaService,
     private router: Router,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private pajuelaService: PajuelaService
   ) {}
 
   ngOnInit() {
@@ -58,8 +50,8 @@ export class GanadoPageComponent implements OnInit, OnDestroy {
     this.empresaSub = this.authService.empresa.subscribe(empresaData => {
       this.empresa = empresaData;
     });
-    this.ganadoService
-      .searchGanado()
+    this.pajuelaService
+      .searchPajuela()
       .pipe(take(1))
       .subscribe(ganadoResponse => {
         this.ELEMENT_DATA = ganadoResponse;
@@ -104,19 +96,15 @@ export class GanadoPageComponent implements OnInit, OnDestroy {
       // @ts-ignore
       filterParams.idRaza = this.idRaza;
     }
-    if (this.idEstadoGanado) {
+    if (this.dePajuela) {
       // @ts-ignore
-      filterParams.idEstadoGanado = this.idEstadoGanado;
+      filterParams.filter = this.dePajuela;
     }
-    if (this.tipoGanado) {
-      // @ts-ignore
-      filterParams.tipoGanado = this.tipoGanado;
-    }
-    this.ganadoService
-      .searchGanado(filterParams)
+    this.pajuelaService
+      .searchPajuela(filterParams)
       .pipe(take(1))
-      .subscribe(ganadoResponse => {
-        this.ELEMENT_DATA = ganadoResponse;
+      .subscribe(pajuelaResponse => {
+        this.ELEMENT_DATA = pajuelaResponse;
         this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -125,19 +113,19 @@ export class GanadoPageComponent implements OnInit, OnDestroy {
     this.dateTo = null;
   }
 
-  goToProfile(ganadoData: SearchGanadoResultSet) {
-    this.router.navigate(['/ganado', ganadoData.co_ganado]);
+  goToProfile(pajuelaData: Pajuela) {
+    this.router.navigate(['/pajuela/update', pajuelaData.co_pajuela]);
   }
 
   goToIndividualProfile() {
-    if (!Number.isInteger(this.individualGanado)) {
+    if (!Number.isInteger(this.individualPajuela)) {
       this.dialogService.openSimpleDialog(
         'Error',
-        'El código del ganado debe de ser un número entero',
+        'El código de la pajuela debe de ser un número entero',
         () => {}
       );
       return;
     }
-    this.router.navigate(['/ganado', this.individualGanado]);
+    this.router.navigate(['/pajuela/update', this.individualPajuela]);
   }
 }

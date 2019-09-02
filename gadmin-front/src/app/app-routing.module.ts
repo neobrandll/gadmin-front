@@ -15,6 +15,10 @@ const routes: Routes = [
   {
     path: 'ganado',
     loadChildren: () => import('./ganado/ganado.module').then(m => m.GanadoModule)
+  },
+  {
+    path: 'pajuela',
+    loadChildren: () => import('./pajuela/pajuela.module').then(m => m.PajuelaModule)
   }
 ];
 

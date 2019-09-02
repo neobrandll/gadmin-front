@@ -7,6 +7,7 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { RazaService } from '../../../services/raza.service';
 import { Raza } from '../../models/raza.model';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-raza-page',
@@ -28,7 +29,8 @@ export class RazaPageComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private razaService: RazaService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
 
   ngOnInit() {
@@ -63,5 +65,8 @@ export class RazaPageComponent implements OnInit, OnDestroy {
 
   updateRaza(raza: Raza) {
     this.router.navigate(['/raza/update', raza.id_raza]);
+  }
+  goBack() {
+    this.location.back();
   }
 }
