@@ -56,10 +56,9 @@
                     <div class="row no-gutters" *ngIf="razas && maxDate">
                       <div class="col-4">
                         <mat-form-field>
-                          <input matInput [matDatepicker]="datePicker" formControlName="date" [max]="maxDate"
-                                 disabled>
+                          <input matInput [matDatepicker]="datePicker" formControlName="date" [max]="maxDate" readonly>
                           <mat-datepicker-toggle [for]="datePicker" matSuffix></mat-datepicker-toggle>
-                          <mat-datepicker #datePicker disabled="false"></mat-datepicker>
+                          <mat-datepicker #datePicker ></mat-datepicker>
                           <mat-label>Fecha de nacimiento</mat-label>
                         </mat-form-field>
                       </div>

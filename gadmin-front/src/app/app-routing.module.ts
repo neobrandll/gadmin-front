@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: 'pajuela',
     loadChildren: () => import('./pajuela/pajuela.module').then(m => m.PajuelaModule)
+  },
+  {
+    path: 'produccion',
+    loadChildren: () => import('./produccion/produccion.module').then(m => m.ProduccionModule)
   }
 ];
 

@@ -176,10 +176,16 @@ export class AuthService {
             }
           );
         },
-        error => {
-          this.dialogService.openSimpleDialog('Error', error.error.message, () => {
-            console.log(error);
-          });
+        errorData => {
+          let allErrors = '';
+          for (const [index, error] of errorData.error.data.entries()) {
+            if (index === 0) {
+              allErrors += `${error.msg}`;
+            } else {
+              allErrors += `, ${error.msg}`;
+            }
+          }
+          this.dialogService.openSimpleDialog('Error', allErrors, () => {});
         }
       )
     );

@@ -4,9 +4,14 @@
   <div class="container-fluid">
     <div class="row no-gutters justify-content-center">
       <div class="col-10">
-        <div class="container-fluid card">
-          <div class="row no-gutters justify-content-center">
-            <div class="col-8">
+        <div class="container-fluid main-card" style="padding-bottom: 0">
+          <div class="row no-gutters">
+            <div class="col-2">
+              <button routerLink="/empresa/menu" color="primary" mat-icon-button aria-label="back">
+                <mat-icon>arrow_back</mat-icon>
+              </button>
+            </div>
+            <div class="col-8 d-flex justify-content-center">
               <div class="mat-display-1 text-center" style="padding-top: 10px; margin-bottom: 10px">RAZAS</div>
             </div>
           </div>
@@ -22,30 +27,20 @@
                     </mat-form-field>
                   </div>
                   <div class="col-2"></div>
-                  <div class="col-5 d-flex align-items-center justify-content-end" >
+                  <div class="col-7 d-flex align-items-center justify-content-end" >
                     <button mat-raised-button color="primary" routerLink="/raza/create"><div class="mat-headline" style="margin: 0">Crear raza</div></button>
-                  </div>
-                  <div class="col-2 d-flex  align-items-center justify-content-end">
-                    <button mat-raised-button color="primary" routerLink="/empresa/menu">
-                      <div class="mat-headline" style="margin: 0">Volver</div>
-                    </button>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-1"></div>
           </div>
-          <div class="row no-gutters justify-content-center" *ngIf="!ELEMENT_DATA?.length>0">
+          <div class="row no-gutters justify-content-center" style="margin-top: 15px" *ngIf="!ELEMENT_DATA?.length>0">
             <div class="col-5 text-center">
               <div class="mat-headline text-center">LA EMPRESA NO POSEE RAZAS</div>
             </div>
             <div class="col-3 d-flex align-items-start justify-content-end">
               <button mat-raised-button color="primary" routerLink="/raza/create"><div class="mat-headline" style="margin: 0">Crear raza</div></button>
-            </div>
-            <div class="col-2 d-flex align-items-start justify-content-end">
-              <button mat-raised-button color="primary" routerLink="/empresa/menu">
-                <div class="mat-headline" style="margin: 0">Volver</div>
-              </button>
             </div>
           </div>
           <div class="row no-gutters justify-content-center">
@@ -60,7 +55,7 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row (click)="updateRaza(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>
-              <mat-paginator [pageSize]="10" [pageSizeOptions]="[5,10]" showFirstLastButtons></mat-paginator>
+              <mat-paginator [pageSize]="5" [pageSizeOptions]="[5,10]" showFirstLastButtons></mat-paginator>
 
             </div>
           </div>

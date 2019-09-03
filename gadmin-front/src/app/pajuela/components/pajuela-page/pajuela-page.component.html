@@ -7,13 +7,18 @@
         <div class="container-fluid main-card">
           <div class="container-fluid">
             <div class="row no-gutters justify-content-center">
+              <div class="col-2">
+                <button routerLink="/empresa/menu" color="primary" mat-icon-button aria-label="back">
+                  <mat-icon>arrow_back</mat-icon>
+                </button>
+              </div>
               <div class="col-10">
                 <div class="container-fluid">
                   <div class="row no-gutters">
-                    <div class="col-8 d-flex justify-content-center align-items-center">
+                    <div class="col-9 d-flex justify-content-center align-items-center">
                       <div class="mat-display-1 text-center d-flex align-items-center" style="margin: 0" >PAJUELA</div>
                     </div>
-                    <div class="col-4 d-flex justify-content-end align-items-center">
+                    <div class="col-3 d-flex justify-content-end align-items-center">
                       <button mat-raised-button color="primary" routerLink="/pajuela/create">
                         <div class="mat-headline" style="margin: 0">Insertar Pajuela</div>
                       </button>
@@ -43,17 +48,17 @@
                     </div>
                     <div class="col-2">
                       <mat-form-field>
-                        <input matInput [matDatepicker]="dateFromPicker" [(ngModel)]="dateFrom" [max]="maxDate" disabled >
+                        <input matInput [matDatepicker]="dateFromPicker" [(ngModel)]="dateFrom" [max]="maxDate" readonly >
                         <mat-datepicker-toggle [for]="dateFromPicker" matSuffix></mat-datepicker-toggle>
-                        <mat-datepicker #dateFromPicker disabled="false"></mat-datepicker>
+                        <mat-datepicker #dateFromPicker ></mat-datepicker>
                         <mat-label>Desde</mat-label>
                       </mat-form-field>
                     </div>
                     <div class="col-2">
                       <mat-form-field>
-                        <input matInput [(ngModel)]="dateTo" [matDatepicker]="dateToPicker" [max]="maxDate" disabled >
+                        <input matInput [(ngModel)]="dateTo" [matDatepicker]="dateToPicker" [max]="maxDate" readonly >
                         <mat-datepicker-toggle [for]="dateToPicker" matSuffix></mat-datepicker-toggle>
-                        <mat-datepicker #dateToPicker disabled="false"></mat-datepicker>
+                        <mat-datepicker #dateToPicker ></mat-datepicker>
                         <mat-label>Hasta</mat-label>
                       </mat-form-field>
                     </div>
@@ -88,7 +93,7 @@
             </div>
             <div class="row no-gutters justify-content-center" *ngIf="!ELEMENT_DATA?.length>0">
               <div class="col-10">
-                <div class="mat-headline text-center">NO SE ENCONTRO NINGUNA PAJUELA</div>
+                <div class="mat-headline text-center">NO SE ENCONTRÓ NINGUNA PAJUELA</div>
               </div>
             </div>
             <div class="row no-gutters justify-content-center">

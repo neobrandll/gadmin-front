@@ -4,10 +4,6 @@ let win;
 
 const createWindow = () => {
   win = new BrowserWindow({
-    // width: 1200,
-    // height: 800,
-    // minHeight: 800,
-    // minWidth: 1500,
     webPreferences: { backgroundThrottling: false },
     icon: __dirname + '/dist/assets/icon.png',
     resizable: false,
@@ -36,17 +32,12 @@ app.on('activate', () => {
 
 const menuTemplate = [
   {
-    // label: 'File',
-    // submenu: [
-    //   {
     label: 'Salir',
     accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
     click() {
       app.quit();
     }
   }
-  //   ]
-  // }
 ];
 
 if (process.platform === 'darwin') {

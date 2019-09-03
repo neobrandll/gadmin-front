@@ -153,7 +153,10 @@
                   <div class="col-12 text-center">
                     <mat-form-field class="input">
                       <mat-label>Contraseña</mat-label>
-                      <input matInput formControlName="password" type="password">
+                      <button mat-icon-button matSuffix (click)="hideP = !hideP" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideP">
+                        <mat-icon>{{hideP ? 'visibility_off' : 'visibility'}}</mat-icon>
+                      </button>
+                      <input matInput formControlName="password" [type]="hideP ? 'password' : 'text'">
                       <mat-error *ngIf="!userForm.get('password').valid && userForm.get('password').touched">
                         Debe de contener al menos 5 caracteres y ser alfanumerica
                       </mat-error>
@@ -166,8 +169,11 @@
                 <div class="row no-gutters justify-content-center">
                   <div class="col-12 text-center">
                     <mat-form-field class="input">
+                      <button mat-icon-button matSuffix (click)="hideCp = !hideCp" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideCp">
+                        <mat-icon>{{hideCp ? 'visibility_off' : 'visibility'}}</mat-icon>
+                      </button>
                       <mat-label>Confirmar Contraseña</mat-label>
-                      <input matInput formControlName="passwordConfirm" type="password">
+                      <input matInput formControlName="passwordConfirm" [type]="hideCp ? 'password' : 'text'">
                       <mat-error>
                         Las contraseñas no coinciden
                       </mat-error>

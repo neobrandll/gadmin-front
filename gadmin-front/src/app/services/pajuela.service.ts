@@ -56,6 +56,20 @@ export class PajuelaService {
         }
         return this.http.get<SearchPajuelaResultSet>(url);
       }),
+      tap(
+        () => {},
+        errorData => {
+          let allErrors = '';
+          for (const [index, error] of errorData.error.data.entries()) {
+            if (index === 0) {
+              allErrors += `${error.msg}`;
+            } else {
+              allErrors += `, ${error.msg}`;
+            }
+          }
+          this.dialogService.openSimpleDialog('Error', allErrors, () => {});
+        }
+      ),
       map(pajuelaList => {
         return pajuelaList.rs;
       })

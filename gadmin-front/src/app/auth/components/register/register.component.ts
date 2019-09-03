@@ -14,6 +14,8 @@ export class RegisterComponent implements OnInit {
   infoForm: FormGroup;
   userForm: FormGroup;
   isLoading = false;
+  hideP = true;
+  hideCp = true;
 
   constructor(private authService: AuthService, private dialogService: DialogService) {}
 
@@ -58,7 +60,7 @@ export class RegisterComponent implements OnInit {
           validators: [Validators.required, Validators.minLength(5)]
         }),
         passwordConfirm: new FormControl(null, {
-          validators: [Validators.required, Validators.minLength(5)]
+          validators: [Validators.required]
         })
       },
       this.passwordMatchValidator
@@ -71,7 +73,7 @@ export class RegisterComponent implements OnInit {
       return null;
     } else {
       this.pwdMatch = false;
-      if (g.get('passwordConfirm').touched) {
+      if (g.get('passwordConfirm').dirty) {
         g.controls.passwordConfirm.setErrors({ mismatch: true });
       }
       return { mismatch: true };

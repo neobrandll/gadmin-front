@@ -1,0 +1,73 @@
+<div class="container-fluid ctn" style="padding: 0">
+  <app-menu-navbar [user]="user" [nombreEmpresa]="empresa.no_empresa"
+                   *ngIf="user && empresa"></app-menu-navbar>
+  <div class="container-fluid">
+    <div class="row no-gutters justify-content-center" *ngIf="isLoading">
+      <div class="col-3 center-block main-card">
+        <app-loading-spinner></app-loading-spinner>
+      </div>
+    </div>
+    <div class="row no-gutters justify-content-center" *ngIf="!isLoading">
+      <div class="col-10">
+        <div class="container-fluid main-card" style="padding-bottom: 20px">
+          <div class="container-fluid ">
+            <div class="row no-gutters justify-content-center">
+              <div class="col-3 align-items-center" *ngIf="producto">
+                <img class="logo-img" *ngIf="producto === 'leche'" src="assets/milkingO.png" alt="logo">
+                <img class="logo-img" *ngIf="producto === 'queso'" src="assets/cheeseTR.png" alt="logo">
+                <div class="mat-headline text-center" style="margin-top: 20px">PRODUCCIÓN DE {{producto.toUpperCase()}}</div>
+              </div>
+              <div class="col-9" *ngIf="produccionForm">
+                <form style="display: inline" [formGroup]="produccionForm">
+                  <div class="container-fluid">
+                    <div class="row no-gutters" *ngIf="producto && maxDate">
+                      <div class="col-4">
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="datePicker" formControlName="date" [max]="maxDate"
+                                 readonly>
+                          <mat-datepicker-toggle [for]="datePicker" matSuffix></mat-datepicker-toggle>
+                          <mat-datepicker #datePicker ></mat-datepicker>
+                          <mat-label>Fecha de la Producción</mat-label>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-4" *ngIf="producto === 'leche'">
+                        <mat-form-field>
+                          <mat-label>Tipo de Producción</mat-label>
+                          <mat-select formControlName="idTipoProduccion">
+                            <mat-option value="1">AM</mat-option>
+                            <mat-option value="2">PM</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-4">
+                        <mat-form-field>
+                          <mat-label>Cantidad de {{producto === 'leche' ? 'Litros' : 'Kilos'}}</mat-label>
+                          <input formControlName="caProduccion" matInput type="number">
+                          <mat-hint>Debe de ser un número</mat-hint>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row no-gutters justify-content-around" style="margin-top: 60px">
+                      <div class="col-3 d-flex" *ngIf="producto">
+                        <button mat-raised-button color="primary" [routerLink]="['/produccion', producto]">
+                          <div class="mat-headline" style="margin: 0">Volver</div>
+                        </button>
+                      </div>
+                      <div class="col-3 d-flex">
+                        <button mat-raised-button color="primary" [disabled]="produccionForm.invalid" (click)="onUpdate()">
+                          <div class="mat-headline" style="margin: 0">Actualizar Producción</div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

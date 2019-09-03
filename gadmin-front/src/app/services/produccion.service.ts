@@ -1,25 +1,58 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthService } from './auth.service';
-import { DialogService } from './dialog.service';
-import { Router } from '@angular/router';
-import { Ganado, SearchGanadoInput, SearchGanadoResponse } from '../ganado/models/ganado.model';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { Form } from '@angular/forms';
+import { AuthService } from './auth.service';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { DialogService } from './dialog.service';
+import {
+  CreateProduccion,
+  Produccion,
+  SearchProduccionInput,
+  SearchProduccionResultSet,
+  UpdateProduccion
+} from '../produccion/models/produccion.model';
+import { CreatePajuela } from '../pajuela/models/pajuela.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GanadoService {
+export class ProduccionService {
   constructor(
-    private http: HttpClient,
     private authService: AuthService,
-    private dialogService: DialogService,
-    private router: Router
+    private http: HttpClient,
+    private router: Router,
+    private dialogService: DialogService
   ) {}
 
-  searchGanado(params?: SearchGanadoInput) {
+  getProduccion(idProduccion: string | number) {
+    return this.authService.empresa.pipe(
+      take(1),
+      switchMap(empresaData => {
+        return this.http.get<Produccion>(
+          `${environment.url}/produccion/${empresaData.id_empresa}/${idProduccion}`
+        );
+      }),
+      tap(
+        () => {},
+        errorData => {
+          let allErrors = '';
+          for (const [index, error] of errorData.error.data.entries()) {
+            if (index === 0) {
+              allErrors += `${error.msg}`;
+            } else {
+              allErrors += `, ${error.msg}`;
+            }
+          }
+          this.dialogService.openSimpleDialog('Error', allErrors, () => {
+            this.router.navigate(['/produccion']);
+          });
+        }
+      )
+    );
+  }
+
+  searchProduccion(producto: string, params?: SearchProduccionInput) {
     const paramArr = [];
     let queryString;
     if (params) {
@@ -44,11 +77,11 @@ export class GanadoService {
     return this.authService.empresa.pipe(
       take(1),
       switchMap(empresaData => {
-        let url = `${environment.url}/ganado/search/${empresaData.id_empresa}`;
+        let url = `${environment.url}/produccion/search/${empresaData.id_empresa}/${producto}`;
         if (queryString && queryString.trim() !== '') {
           url += queryString.trim();
         }
-        return this.http.get<SearchGanadoResponse>(url);
+        return this.http.get<SearchProduccionResultSet>(url);
       }),
       tap(
         () => {},
@@ -64,21 +97,21 @@ export class GanadoService {
           this.dialogService.openSimpleDialog('Error', allErrors, () => {});
         }
       ),
-      map(ganadoList => {
-        return ganadoList.rs;
+      map(produccionList => {
+        return produccionList.rs;
       })
     );
   }
 
-  createGanado(ganadoData: FormData) {
-    return this.http.post(`${environment.url}/ganado`, ganadoData).pipe(
+  createProduccion(produccionData: CreateProduccion, producto) {
+    return this.http.post(`${environment.url}/produccion`, produccionData).pipe(
       tap(
         () => {
           this.dialogService.openSimpleDialog(
-            'Ganado creado',
-            `El Ganado fue creado con exito`,
+            'Producción creada',
+            `La Producción fue creada con exito`,
             () => {
-              this.router.navigate(['/ganado']);
+              this.router.navigate(['/produccion', producto]);
             }
           );
         },
@@ -97,15 +130,15 @@ export class GanadoService {
     );
   }
 
-  updateGanado(ganadoData: FormData) {
-    return this.http.put(`${environment.url}/ganado`, ganadoData).pipe(
+  updateProduccion(produccionData: UpdateProduccion, producto) {
+    return this.http.put(`${environment.url}/produccion`, produccionData).pipe(
       tap(
         () => {
           this.dialogService.openSimpleDialog(
-            'Ganado actualizado',
-            `El Ganado fue actualizado con exito`,
+            'Producción actualizada',
+            `La Producción fue actualizada con exito`,
             () => {
-              this.router.navigate(['/ganado']);
+              this.router.navigate(['/produccion', producto]);
             }
           );
         },
@@ -119,33 +152,6 @@ export class GanadoService {
             }
           }
           this.dialogService.openSimpleDialog('Error', allErrors, () => {});
-        }
-      )
-    );
-  }
-
-  getGanado(coGanado: string | number) {
-    return this.authService.empresa.pipe(
-      take(1),
-      switchMap(empresaData => {
-        return this.http.get<Ganado>(
-          `${environment.url}/ganado/${empresaData.id_empresa}/${coGanado}`
-        );
-      }),
-      tap(
-        () => {},
-        errorData => {
-          let allErrors = '';
-          for (const [index, error] of errorData.error.data.entries()) {
-            if (index === 0) {
-              allErrors += `${error.msg}`;
-            } else {
-              allErrors += `, ${error.msg}`;
-            }
-          }
-          this.dialogService.openSimpleDialog('Error', allErrors, () => {
-            this.router.navigate(['/ganado']);
-          });
         }
       )
     );
