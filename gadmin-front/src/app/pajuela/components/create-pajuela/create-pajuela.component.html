@@ -20,7 +20,7 @@
                 <form style="display: inline" [formGroup]="pajuelaForm">
                   <div class="container-fluid">
                     <div class="row no-gutters justify-content-between" *ngIf="razas && maxDate">
-                      <div class="col-3">
+                      <div class="col-4">
                         <mat-form-field>
                           <input matInput [matDatepicker]="datePicker" formControlName="date" [max]="maxDate" readonly>
                           <mat-datepicker-toggle [for]="datePicker" matSuffix></mat-datepicker-toggle>
@@ -28,7 +28,7 @@
                           <mat-label>Fecha de la Pajuela</mat-label>
                         </mat-form-field>
                       </div>
-                      <div class="col-3" *ngIf="razas">
+                      <div class="col-4" *ngIf="razas">
                         <mat-form-field>
                           <mat-label>Raza</mat-label>
                           <mat-select formControlName="idRaza">
@@ -40,18 +40,20 @@
                           </mat-select>
                         </mat-form-field>
                       </div>
-                      <div class="col-3">
+                      <div class="col-4">
                         <mat-form-field>
                           <mat-label>Código de la Pajuela</mat-label>
                           <input formControlName="coPajuela" matInput type="number" max="999999999">
                           <mat-error>
-                            Debe de ser un número entero y de máximo 9 digitos
+                            Debe de ser un número entero y de máximo 9 dígitos
                           </mat-error>
-                          <mat-hint>Debe de ser un número entero y de maximo 9 digitos</mat-hint>
+                          <mat-hint>Debe de ser un número entero y de maximo 9 dígitos</mat-hint>
                         </mat-form-field>
                       </div>
-                      <div class="col-3">
-                        <mat-form-field>
+                    </div>
+                    <div class="row no-gutters">
+                      <div class="col-8">
+                        <mat-form-field style="width: 90%">
                           <mat-label>Descripcion de la Pajuela</mat-label>
                           <input matInput formControlName="dePajuela">
                         </mat-form-field>

@@ -53,9 +53,14 @@
                           <div class="mat-headline" style="margin: 0">Volver</div>
                         </button>
                       </div>
-                      <div class="col-3 d-flex">
+                      <div class="col-4 d-flex">
                         <button mat-raised-button color="primary" [disabled]="produccionForm.invalid" (click)="onUpdate()">
                           <div class="mat-headline" style="margin: 0">Actualizar Producción</div>
+                        </button>
+                      </div>
+                      <div class="col-4 d-flex">
+                        <button mat-raised-button class="deleteBtn" (click)="onDelete()">
+                          <div class="mat-headline" style="margin: 0">Eliminar Producción</div>
                         </button>
                       </div>
                     </div>

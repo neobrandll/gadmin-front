@@ -15,7 +15,8 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MAT_DATE_LOCALE,
-  MatSortModule
+  MatSortModule,
+  MatTooltipModule
 } from '@angular/material';
 import { CustomPaginator } from './custom-paginator';
 
@@ -33,7 +34,8 @@ const Material = [
   MatSelectModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatSortModule
+  MatSortModule,
+  MatTooltipModule
 ];
 
 @NgModule({

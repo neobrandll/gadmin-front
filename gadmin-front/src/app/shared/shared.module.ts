@@ -8,6 +8,7 @@ import { AuthInterceptorService } from '../interceptors/auth-interceptor.service
 import { MenuNavbarComponent } from './components/menu-navbar/menu-navbar.component';
 import { RouterModule } from '@angular/router';
 import { CustomInputFileComponent } from './components/custom-input-file/custom-input-file.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   imports: [CommonModule, MaterialModule, RouterModule],
@@ -15,14 +16,16 @@ import { CustomInputFileComponent } from './components/custom-input-file/custom-
     DialogComponent,
     LoadingSpinnerComponent,
     MenuNavbarComponent,
-    CustomInputFileComponent
+    CustomInputFileComponent,
+    ConfirmDialogComponent
   ],
   exports: [
+    ConfirmDialogComponent,
     DialogComponent,
     LoadingSpinnerComponent,
     MenuNavbarComponent,
     CustomInputFileComponent
   ],
-  entryComponents: [DialogComponent]
+  entryComponents: [DialogComponent, ConfirmDialogComponent]
 })
 export class SharedModule {}

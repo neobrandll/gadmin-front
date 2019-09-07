@@ -1,0 +1,176 @@
+<div class="container-fluid ctn" style="padding: 0">
+  <app-menu-navbar [user]="user" [nombreEmpresa]="empresa.no_empresa"
+                   *ngIf="user && empresa"></app-menu-navbar>
+  <div class="container-fluid">
+    <div class="row no-gutters justify-content-center" *ngIf="isLoading">
+      <div class="col-3 center-block main-card">
+        <app-loading-spinner></app-loading-spinner>
+      </div>
+    </div>
+    <div class="row no-gutters justify-content-center" *ngIf="!isLoading">
+      <div class="col-10">
+        <div class="container-fluid main-card" style="padding-bottom: 20px">
+          <div class="container-fluid ">
+            <div class="row no-gutters justify-content-center">
+              <div class="col-3 align-items-center">
+                <img class="logo-img" src="assets/partos.png " alt="logo">
+                <div class="mat-headline text-center" style="margin-top: 20px">CREAR PARTO</div>
+              </div>
+              <div class="col-9" *ngIf="partoForm && criaForm">
+                <div class="container-fluid">
+                  <form style="display: inline" [formGroup]="partoForm">
+                    <div class="row no-gutters">
+                      <div class="col-4">
+                        <mat-form-field>
+                          <mat-label>Código de la madre</mat-label>
+                          <input matInput formControlName="coMaGanado" type="number">
+                          <mat-error>
+                            Debe de ser un número entero y de máximo 9 dígitos
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-4" *ngIf="this.partoForm.contains('coPaPajuela')">
+                        <mat-form-field>
+                          <mat-label>Código de la pajuela</mat-label>
+                          <input formControlName="coPaPajuela" matInput type="number" >
+                          <mat-error>
+                            Debe de ser un número entero y de máximo 9 dígitos
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-4" *ngIf="this.partoForm.contains('coPaGanado')">
+                        <mat-form-field>
+                          <mat-label>Código del padre</mat-label>
+                          <input formControlName="coPaGanado" matInput type="number">
+                          <mat-error>
+                            Debe de ser un número entero y de máximo 9 dígitos
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-4">
+                        <mat-form-field>
+                          <mat-label>Tipo de Parto</mat-label>
+                          <mat-select (selectionChange)="onSelectionChange($event)" formControlName="idTipoActividad">
+                            <mat-option [value]="1">Parto natural</mat-option>
+                            <mat-option [value]="2">Parto con pajuela</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row no-gutters" *ngIf="maxDate">
+                      <div class="col-4">
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="datePicker" formControlName="date" [max]="maxDate" readonly>
+                          <mat-datepicker-toggle [for]="datePicker" matSuffix></mat-datepicker-toggle>
+                          <mat-datepicker #datePicker></mat-datepicker>
+                          <mat-label>Fecha del Parto</mat-label>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-8">
+                        <mat-form-field style="width: 90%">
+                          <mat-label>Descripción del Parto</mat-label>
+                          <input formControlName="deActividad" matInput>
+                          <mat-error>
+                            Por favor introduzca una descripción valida
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </form>
+                  <form style="display: inline" [formGroup]="criaForm">
+                    <div class="row no-gutters justify-content-around" >
+                      <div class="col-4">
+                        <mat-form-field matTooltip="Solo 3 crias por parto" [matTooltipDisabled]="ELEMENT_DATA.length<3">
+                          <mat-label>Código de la cria</mat-label>
+                          <input formControlName="coGanado" matInput type="number">
+                          <mat-error>
+                            Debe de ser un número entero y de máximo 9 dígitos
+                          </mat-error>
+                          <mat-hint  *ngIf="criaForm.enabled">Debe de ser un número entero y de maximo 9 dígitos</mat-hint>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-4" matTooltip="Solo 3 crias por parto" [matTooltipDisabled]="ELEMENT_DATA.length<3">
+                        <mat-form-field>
+                          <mat-label>Peso de la cria</mat-label>
+                          <input formControlName="peGanado" matInput type="number">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-4" matTooltip="Solo 3 crias por parto" [matTooltipDisabled]="ELEMENT_DATA.length<3">
+                        <mat-form-field>
+                          <mat-label>Tipo de Ganado</mat-label>
+                          <mat-select formControlName="tipoGanado">
+                            <mat-option value="1">Toro</mat-option>
+                            <mat-option value="2">Vaca</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </form>
+
+                  <div class="row no-gutters" *ngIf="ELEMENT_DATA.length>0">
+                    <div class="col-12">
+                      <table mat-table [dataSource]="dataSource"  style="width: 100%">
+
+
+                        <ng-container matColumnDef="tipoGanado">
+                          <th mat-header-cell *matHeaderCellDef>Tipo de Ganado</th>
+                          <td mat-cell *matCellDef="let element">
+                            <span *ngIf="element.tipoGanado === 1">Toro</span>
+                            <span *ngIf="element.tipoGanado === 2">Vaca</span>
+                          </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="coGanado">
+                          <th mat-header-cell *matHeaderCellDef>Código de la Cria </th>
+                          <td mat-cell *matCellDef="let element"> {{element.coGanado}} </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="peGanado">
+                          <th mat-header-cell *matHeaderCellDef>Peso de la Cria </th>
+                          <td mat-cell *matCellDef="let element"> {{element.peGanado}} </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="delete">
+                          <th mat-header-cell *matHeaderCellDef></th>
+                          <td mat-cell *matCellDef="let element">
+                            <button (click)="removeCria(element)" style="color: #dc3545" mat-icon-button aria-label="deletebtn">
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                      </table>
+
+                    </div>
+                  </div>
+                  <div class="row no-gutters justify-content-around" style="margin-top: 60px">
+                    <div class="col-3 d-flex">
+                      <button mat-raised-button color="primary" routerLink="/parto">
+                        <div class="mat-headline" style="margin: 0">Volver</div>
+                      </button>
+                    </div>
+                    <div class="col-3 d-flex">
+                      <button  mat-raised-button color="primary" [disabled]="criaForm.invalid || ELEMENT_DATA.length>=3" (click)="addCria()">
+                        <div matTooltip="Solo 3 crias por parto" [matTooltipDisabled]="ELEMENT_DATA.length<3" class="mat-headline" style="margin: 0">Añadir cria</div>
+                      </button>
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                      <button mat-raised-button color="primary" [disabled]="partoForm.invalid || ELEMENT_DATA.length <= 0 || ELEMENT_DATA.length>3" (click)="onCreate()">
+                        <div class="mat-headline" style="margin: 0">Crear Parto</div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

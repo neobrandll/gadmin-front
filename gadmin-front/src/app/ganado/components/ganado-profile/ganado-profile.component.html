@@ -72,7 +72,7 @@
                         <mat-label>Código del Ganado</mat-label>
                         <input formControlName="codigoGanado" matInput type="number" max="999999999">
                         <mat-error>
-                          Debe de ser un número entero y de máximo 9 digitos
+                          Debe de ser un número entero y de máximo 9 dígitos
                         </mat-error>
                       </mat-form-field>
                     </div>
@@ -101,7 +101,7 @@
                     <div class="col-4" *ngIf="ganado?.pajuela_padre_codigo">
                       <div class="d-flex align-items-center" style="width: 80%">
                         <span style="padding-right: 10px">Código Pajuela Padre:</span>
-                        <button mat-button>{{ganado.pajuela_padre_codigo}}</button>
+                        <button [routerLink]="['/pajuela/update', ganado.pajuela_padre_codigo]" mat-button>{{ganado.pajuela_padre_codigo}}</button>
                       </div>
                     </div>
                   </div>

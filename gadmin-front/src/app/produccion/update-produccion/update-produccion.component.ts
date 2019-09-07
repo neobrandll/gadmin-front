@@ -126,4 +126,24 @@ export class UpdateProduccionComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  onDelete() {
+    this.dialogService.openConfirmDialog(
+      'Confirmación',
+      'Está seguro que desea eliminar la producción?',
+      () => {
+        this.isLoading = true;
+        this.produccionService
+          .deleteProduccion(this.produccion.id_produccion, this.empresa.id_empresa, this.producto)
+          .subscribe(
+            () => {
+              this.isLoading = false;
+            },
+            () => {
+              this.isLoading = false;
+            }
+          );
+      }
+    );
+  }
 }

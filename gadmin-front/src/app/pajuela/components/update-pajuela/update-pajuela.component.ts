@@ -10,6 +10,7 @@ import { PajuelaService } from '../../../services/pajuela.service';
 import { Pajuela } from '../../models/pajuela.model';
 import { switchMap, take } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-update-pajuela',
@@ -32,7 +33,8 @@ export class UpdatePajuelaComponent implements OnInit, OnDestroy {
     private razaService: RazaService,
     private dialogService: DialogService,
     private pajuelaService: PajuelaService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location
   ) {}
 
   ngOnInit() {
@@ -128,5 +130,9 @@ export class UpdatePajuelaComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     );
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

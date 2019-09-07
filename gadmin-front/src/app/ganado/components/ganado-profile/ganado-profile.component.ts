@@ -62,6 +62,8 @@ export class GanadoProfileComponent implements OnInit, OnDestroy {
         this.ganado = ganadoData;
         if (ganadoData.fo_ganado) {
           this.ganadoURL = `${environment.url}/${ganadoData.fo_ganado}`;
+        } else {
+          this.ganadoURL = null;
         }
         this.ganadoForm = new FormGroup({
           idRaza: new FormControl(ganadoData.id_raza, {

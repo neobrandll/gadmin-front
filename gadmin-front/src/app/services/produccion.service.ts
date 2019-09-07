@@ -12,7 +12,6 @@ import {
   SearchProduccionResultSet,
   UpdateProduccion
 } from '../produccion/models/produccion.model';
-import { CreatePajuela } from '../pajuela/models/pajuela.model';
 
 @Injectable({
   providedIn: 'root'
@@ -137,6 +136,33 @@ export class ProduccionService {
           this.dialogService.openSimpleDialog(
             'Producción actualizada',
             `La Producción fue actualizada con exito`,
+            () => {
+              this.router.navigate(['/produccion', producto]);
+            }
+          );
+        },
+        errorData => {
+          let allErrors = '';
+          for (const [index, error] of errorData.error.data.entries()) {
+            if (index === 0) {
+              allErrors += `${error.msg}`;
+            } else {
+              allErrors += `, ${error.msg}`;
+            }
+          }
+          this.dialogService.openSimpleDialog('Error', allErrors, () => {});
+        }
+      )
+    );
+  }
+
+  deleteProduccion(idProduccion: string | number, idEmpresa: string | number, producto: string) {
+    return this.http.delete(`${environment.url}/produccion/${idEmpresa}/${idProduccion}`).pipe(
+      tap(
+        () => {
+          this.dialogService.openSimpleDialog(
+            'Producción eliminada',
+            `La Producción fue eliminada con exito`,
             () => {
               this.router.navigate(['/produccion', producto]);
             }
