@@ -1,0 +1,99 @@
+<div class="container-fluid ctn" style="padding: 0">
+  <app-menu-navbar [user]="user" [nombreEmpresa]="empresa.no_empresa"
+                   *ngIf="user && empresa"></app-menu-navbar>
+  <div class="container-fluid">
+    <div class="row no-gutters justify-content-center" *ngIf="isLoading">
+      <div class="col-3 center-block main-card">
+        <app-loading-spinner></app-loading-spinner>
+      </div>
+    </div>
+    <div class="row no-gutters justify-content-center" *ngIf="!isLoading">
+      <div class="col-10">
+        <div class="container-fluid main-card" style="padding-bottom: 40px">
+          <div class="container-fluid ">
+            <div class="row no-gutters" >
+              <div class="col-2">
+                <button routerLink="/parto" color="primary" mat-icon-button aria-label="back">
+                  <mat-icon>arrow_back</mat-icon>
+                </button>
+              </div>
+              <div class="col-9 d-flex justify-content-center align-items-center">
+                <div class="mat-display-1 text-center d-flex align-items-center" style="margin: 0; margin-bottom: 20px">FICHA PARTO</div>
+              </div>
+            </div>
+            <div class="row no-gutters justify-content-center">
+              <div class="col-3 align-items-center">
+                <img class="logo-img" src="assets/partos.png " alt="logo">
+              </div>
+              <div class="col-9">
+                <div class="container-fluid" *ngIf="parto && ELEMENT_DATA.length >0">
+                  <div class="row no-gutters row-margin">
+                    <div class="col-4">
+                      <span>Código de la Madre: </span>
+                      <button class="bold" [routerLink]="['/ganado', parto.crias[0]?.co_ma_ganado]"
+                              mat-button>{{parto.crias[0]?.co_ma_ganado}}</button>
+                    </div>
+                    <div class="col-4" *ngIf="parto.crias[0]?.co_pa_pajuela">
+                      <span>Código de la Pajuela: </span>
+                      <button class="bold" [routerLink]="['/pajuela/update', parto.crias[0]?.co_pa_pajuela]"
+                              mat-button>{{parto.crias[0]?.co_pa_pajuela}}</button>
+                    </div>
+                    <div class="col-4" *ngIf="parto.crias[0]?.co_pa_ganado">
+                      <span>Código del Padre: </span>
+                      <button class="bold" [routerLink]="['/ganado', parto.crias[0]?.co_pa_ganado]"
+                              mat-button>{{parto.crias[0]?.co_pa_ganado}}</button>
+                    </div>
+                    <div class="col-4">
+                      <span>Tipo de Parto: </span><span class="bold">{{parto.crias[0].de_tipo_actividad}}</span>
+                    </div>
+                  </div>
+                  <div class="row no-gutters row-margin">
+                    <div class="col-4">
+                      <span>Fecha del Parto: </span>
+                      <span class="bold">
+                        {{getDate(parto.crias[0].fe_actividad).getDate()}}/{{getDate(parto.crias[0].fe_actividad).getMonth() + 1}}/{{getDate(parto.crias[0].fe_actividad).getFullYear()}}
+                      </span>
+                    </div>
+                    <div class="col-8">
+                      <span>Descripción de Parto: </span><span class="bold">{{parto.crias[0].de_actividad}}</span>
+                    </div>
+                  </div>
+                  <div class="row no-gutters row-margin" *ngIf="ELEMENT_DATA.length>0">
+                    <div class="col-12">
+                      <table mat-table [dataSource]="dataSource" style="width: 100%">
+
+
+                        <ng-container matColumnDef="deTipoGanado">
+                          <th mat-header-cell *matHeaderCellDef>Tipo de Ganado</th>
+                          <td matTooltip="Presione para ver cria" matTooltipPosition="before" mat-cell *matCellDef="let element">{{element.deTipoGanado}}
+                          </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="coGanado">
+                          <th mat-header-cell *matHeaderCellDef>Código de la Cria</th>
+                          <td matTooltip="Presione para ver cria" matTooltipPosition="before" mat-cell *matCellDef="let element"> {{element.coGanado}} </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="peGanado">
+                          <th mat-header-cell *matHeaderCellDef>Peso de la Cria</th>
+                          <td matTooltip="Presione para ver cria" matTooltipPosition="before" mat-cell *matCellDef="let element"> {{element.peGanado}} </td>
+                        </ng-container>
+
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row [routerLink]="['/ganado', row.coGanado]" *matRowDef="let row; columns: displayedColumns;"></tr>
+                      </table>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,6 +7,7 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { PartoService } from '../../../services/parto.service';
 import { take } from 'rxjs/operators';
 import { DialogService } from '../../../services/dialog.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-parto-page',
@@ -44,7 +45,8 @@ export class PartoPageComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private partoService: PartoService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -177,5 +179,9 @@ export class PartoPageComponent implements OnInit, OnDestroy {
       });
     this.dateFrom = null;
     this.dateTo = null;
+  }
+
+  getParto(parto: SearchParto) {
+    this.router.navigate(['parto', parto.id_actividad]);
   }
 }

@@ -66,13 +66,20 @@ export class UpdateRazaComponent implements OnInit, OnDestroy {
     if (!this.razaForm.valid) {
       return;
     }
-    this.isLoading = true;
-    this.razaService.updateRaza(deRaza, this.empresa.id_empresa, this.idRaza).subscribe(
+
+    this.dialogService.openConfirmDialog(
+      'Confirmar',
+      'Está seguro que desea modificar la raza?',
       () => {
-        this.isLoading = false;
-      },
-      () => {
-        this.isLoading = false;
+        this.isLoading = true;
+        this.razaService.updateRaza(deRaza, this.empresa.id_empresa, this.idRaza).subscribe(
+          () => {
+            this.isLoading = false;
+          },
+          () => {
+            this.isLoading = false;
+          }
+        );
       }
     );
   }

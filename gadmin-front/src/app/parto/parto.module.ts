@@ -6,7 +6,8 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { PartoPageComponent } from './components/parto-page/parto-page.component';
-import { CreatePartoComponent } from './create-parto/create-parto.component';
+import { CreatePartoComponent } from './components/create-parto/create-parto.component';
+import { PartoComponent } from './components/parto/parto.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,11 @@ const routes: Routes = [
   {
     path: 'create',
     component: CreatePartoComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: ':idParto',
+    component: PartoComponent,
     canActivate: [AuthGuard]
   }
 ];
@@ -31,6 +37,6 @@ const routes: Routes = [
     MaterialModule,
     SharedModule
   ],
-  declarations: [PartoPageComponent, CreatePartoComponent]
+  declarations: [PartoPageComponent, CreatePartoComponent, PartoComponent]
 })
 export class PartoModule {}

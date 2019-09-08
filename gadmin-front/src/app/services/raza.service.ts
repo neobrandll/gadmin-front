@@ -79,7 +79,7 @@ export class RazaService {
       tap(
         () => {
           this.dialogService.openSimpleDialog(
-            'Raza creada!',
+            'Raza creada',
             `La raza ${deRaza} fue creada con exito`,
             () => {
               this.router.navigate(['/raza']);

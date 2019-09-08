@@ -18,7 +18,7 @@ const createWindow = () => {
   const mainMenu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(mainMenu);
 
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
   process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = true;
 };
 

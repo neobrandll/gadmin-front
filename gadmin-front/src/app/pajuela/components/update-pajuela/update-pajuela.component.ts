@@ -121,13 +121,20 @@ export class UpdatePajuelaComponent implements OnInit, OnDestroy {
       idRaza,
       newCoPajuela
     };
-    this.isLoading = true;
-    this.pajuelaService.updatePajuela(newPajuela).subscribe(
+
+    this.dialogService.openConfirmDialog(
+      'Confirmar',
+      'Está seguro que desea modificar la pajuela?',
       () => {
-        this.isLoading = false;
-      },
-      () => {
-        this.isLoading = false;
+        this.isLoading = true;
+        this.pajuelaService.updatePajuela(newPajuela).subscribe(
+          () => {
+            this.isLoading = false;
+          },
+          () => {
+            this.isLoading = false;
+          }
+        );
       }
     );
   }

@@ -187,13 +187,19 @@ export class GanadoProfileComponent implements OnInit, OnDestroy {
     if (this.fotoGanado) {
       FD.set('foGanado', this.fotoGanado);
     }
-    this.isLoading = true;
-    this.ganadoService.updateGanado(FD).subscribe(
+    this.dialogService.openConfirmDialog(
+      'Confirmar',
+      'Está seguro que desea modificar el ganado?',
       () => {
-        this.isLoading = false;
-      },
-      () => {
-        this.isLoading = false;
+        this.isLoading = true;
+        this.ganadoService.updateGanado(FD).subscribe(
+          () => {
+            this.isLoading = false;
+          },
+          () => {
+            this.isLoading = false;
+          }
+        );
       }
     );
   }

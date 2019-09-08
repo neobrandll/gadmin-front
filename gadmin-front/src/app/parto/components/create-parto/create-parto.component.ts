@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { EmpresaLogin, User } from '../../auth/models/user.model';
-import { AuthService } from '../../services/auth.service';
+import { EmpresaLogin, User } from '../../../auth/models/user.model';
+import { AuthService } from '../../../services/auth.service';
 import { Subscription } from 'rxjs';
-import { PartoService } from '../../services/parto.service';
+import { PartoService } from '../../../services/parto.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DialogService } from '../../services/dialog.service';
+import { DialogService } from '../../../services/dialog.service';
 import { MatSelectChange, MatTableDataSource } from '@angular/material';
-import { Cria } from '../models/parto.model';
+import { Cria } from '../../models/parto.model';
 
 @Component({
   selector: 'app-create-parto',
@@ -214,7 +214,7 @@ export class CreatePartoComponent implements OnInit, OnDestroy {
       // @ts-ignore
       newParto.coPaPajuela = coPaPajuela;
     }
-    if (this.partoForm.contains('coPaGanado')) {
+    if (this.partoForm.contains('coPaGanado') && this.partoForm.value.coPaGanado) {
       const coPaGanado = this.partoForm.value.coPaGanado;
       if (!Number.isInteger(coPaGanado)) {
         this.dialogService.openSimpleDialog(

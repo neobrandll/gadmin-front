@@ -25,7 +25,7 @@ export class DialogService {
       data: { title, message, action }
     });
     this.confirmDialogSubscription = confirmDialogRef.afterClosed().subscribe(result => {
-      if (result === 'delete') {
+      if (result === 'confirm') {
         action();
       }
       this.confirmDialogSubscription.unsubscribe();

@@ -116,13 +116,20 @@ export class UpdateProduccionComponent implements OnInit, OnDestroy {
       idTipoProduccion,
       idProduccion: this.produccion.id_produccion
     };
-    this.isLoading = true;
-    this.produccionService.updateProduccion(updatedProduccion, this.producto).subscribe(
+
+    this.dialogService.openConfirmDialog(
+      'Confirmar',
+      'Está seguro que desea modificar la producción?',
       () => {
-        this.isLoading = false;
-      },
-      () => {
-        this.isLoading = false;
+        this.isLoading = true;
+        this.produccionService.updateProduccion(updatedProduccion, this.producto).subscribe(
+          () => {
+            this.isLoading = false;
+          },
+          () => {
+            this.isLoading = false;
+          }
+        );
       }
     );
   }

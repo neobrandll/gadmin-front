@@ -13,9 +13,16 @@
           <div class="container-fluid ">
             <div class="row no-gutters justify-content-center">
               <div class="col-3 align-items-center" *ngIf="producto">
-                <img class="logo-img" *ngIf="producto === 'leche'" src="assets/milkingO.png" alt="logo">
-                <img class="logo-img" *ngIf="producto === 'queso'" src="assets/cheeseTR.png" alt="logo">
-                <div class="mat-headline text-center" style="margin-top: 20px">PRODUCCIÓN DE {{producto.toUpperCase()}}</div>
+                <div>
+                  <button [routerLink]="['/produccion', producto]" color="primary" mat-icon-button aria-label="back">
+                    <mat-icon>arrow_back</mat-icon>
+                  </button>
+                </div>
+                <div>
+                  <img class="logo-img" *ngIf="producto === 'leche'" src="assets/milkingO.png" alt="logo">
+                  <img class="logo-img" *ngIf="producto === 'queso'" src="assets/cheeseTR.png" alt="logo">
+                  <div class="mat-headline text-center" style="margin-top: 20px">PRODUCCIÓN DE {{producto.toUpperCase()}}</div>
+                </div>
               </div>
               <div class="col-9" *ngIf="produccionForm">
                 <form style="display: inline" [formGroup]="produccionForm">

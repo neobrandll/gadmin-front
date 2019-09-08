@@ -36,6 +36,7 @@ export interface Parto {
     de_actividad: string;
     fe_actividad: string;
     de_tipo_actividad: string;
+    de_tipo_ganado: string;
   }[];
 }
 
@@ -61,7 +62,8 @@ export interface CreateParto {
 }
 
 export interface Cria {
-  tipoGanado: number;
+  tipoGanado?: number;
+  deTipoGanado?: string;
   coGanado: number;
   peGanado: number;
 }
